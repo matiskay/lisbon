@@ -23,8 +23,12 @@ static char * test_create_graph() {
   graph = graph_create_edge_between_vertex(graph, 20, 30);
   graph = graph_create_edge_between_vertex(graph, 20, 10);
   graph = graph_create_edge_between_vertex(graph, 30, 10);
+
   graph = graph_create_edge_between_vertex(graph, 30, 20);
+
+  /*
   graph = graph_create_edge_between_vertex(graph, 30, 20);
+  */
 
   graph = graph_create_edge_between_vertex(graph, 30, 40);
 

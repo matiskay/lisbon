@@ -25,7 +25,7 @@ struct vertex {
  */
 struct edge {
   /* destination Vertex */
-  struct vertex* next_vertex;
+  struct vertex* destination_vertex;
   struct edge* next_edge; /* TODO: What is the purpose of this structure? */
 };
 

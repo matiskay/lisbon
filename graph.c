@@ -26,7 +26,7 @@ Edge* graph_create_edge() {
   Edge* edge;
   edge = (Edge*) malloc(sizeof(Edge));
 
-  edge->next_vertex = NULL;
+  edge->destination_vertex = NULL;
   edge->next_edge = NULL;
   return edge;
 }
@@ -51,12 +51,12 @@ Vertex* graph_create_edge_between_vertex(Vertex* graph, int vertex_value1, int v
         edge2 = graph_create_edge();
 
         /* Vertex1 --> Vertex2 */
-        edge1->next_vertex = vertex2;
+        edge1->destination_vertex = vertex2;
         edge1->next_edge = vertex1->next_edge;
         vertex1->next_edge = edge1;
 
-        /* Vertex2 -> Vertex1 */
-        edge2->next_vertex = vertex1;
+        /* Vertex2 --> Vertex1 */
+        edge2->destination_vertex = vertex1;
         edge2->next_edge = vertex2->next_edge;
         vertex2->next_edge = edge2;
         counter++;
@@ -127,7 +127,7 @@ void graph_print(Vertex* graph) {
       printf("   This vertex doesn't have any edge.\n");
     } else {
       for (edge = vertex1->next_edge; edge != NULL; edge = edge->next_edge) {
-        vertex2 = edge->next_vertex;
+        vertex2 = edge->destination_vertex;
         printf("   Destination vertex (%d) \n", vertex2->value);
       }
       number_of_vertex++;
