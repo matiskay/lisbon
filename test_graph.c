@@ -21,6 +21,9 @@ static char * test_create_graph() {
   graph = graph_insert_vertex(graph, 20);
   graph = graph_insert_vertex(graph, 30);
   graph = graph_create_edge_between_vertex(graph, 20, 30);
+  
+  /*Fail case*/
+  //graph = graph_create_edge_between_vertex(graph, 10, 30);
   graph = graph_create_edge_between_vertex(graph, 30, 10);
 
 

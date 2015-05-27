@@ -57,12 +57,21 @@ Vertex* graph_create_edge_between_vertex(Vertex* graph, int vertex_value1, int v
       /* Create the edge between this two vertex */
       if (vertex1->value == vertex_value1 && vertex2->value == vertex_value2) {
 
-        if (vertex1->next_edge != NULL) {
+        //if (vertex1->next_edge != NULL && vertex2->next_edge != NULL) {
+        if (vertex1->next_edge != NULL && vertex2->next_edge != NULL) {
           if (vertex1->next_edge->destination_vertex->value == vertex_value1
               || vertex1->next_edge->destination_vertex->value == vertex_value2) {
             flag_is_edge_already_in_graph = 1;
             continue;
           }
+
+          /*
+          if (vertex2->next_edge->destination_vertex->value == vertex_value1
+              || vertex2->next_edge->destination_vertex->value == vertex_value2) {
+            flag_is_edge_already_in_graph = 1;
+            continue;
+          }
+          */
         } else {
           edge1 = graph_create_edge();
           edge2 = graph_create_edge();
