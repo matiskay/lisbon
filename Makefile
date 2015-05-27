@@ -1,3 +1,5 @@
+LDFLAGS=-lncurses
+
 all:
 	 gcc -c graph.c
 	 gcc -c main.c

@@ -26,6 +26,7 @@ struct vertex {
 struct edge {
   /* destination Vertex */
   struct vertex* destination_vertex;
+  // Next Edge in the graph
   struct edge* next_edge; /* TODO: What is the purpose of this structure? */
 };
 
@@ -44,3 +45,4 @@ void graph_exclude_vertex(Vertex*);
 // This should be the initial node
 // Every graph at least has a node
 void graph_print(Vertex*);
+int graph_is_connected(Vertex*, int);

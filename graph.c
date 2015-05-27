@@ -169,3 +169,65 @@ void graph_print(Vertex* graph) {
   }
   */
 }
+
+/* Check if the current vertex from the graph is conexed */
+/* Check if there is a path between a note in the graph and the node value using a greedy algorithm. */
+int graph_is_connected(Vertex* graph, int value) {
+  Vertex* vertex1;
+  Vertex* vertex2;
+
+  Edge* next_edge;
+  Edge* found_edge;
+
+  vertex1 = graph;
+
+  /* Find the vertex in the graph that initialize the process. If G = (V, E) check if v in V */
+  while (vertex1 != NULL && vertex1->value != value) {
+    vertex1 = vertex1->next_vertex;
+  }
+  
+  if (!vertex1) {
+    /* The vertex doesn't exists in the graph */
+    return -1;
+  }
+
+  /* Set all the visits to 0 */
+  for (vertex2 = graph; vertex2; vertex2->is_visited = 0, vertex2 = vertex2->next_vertex);
+
+  vertex1->is_visited = 1;
+
+  printf("Exploration for the vertex (%d):   \n", vertex1->value);
+
+  do {
+    found_edge = NULL;
+    for (vertex2 = graph; vertex2; vertex2 = vertex2->next_vertex) {
+      if (vertex2->is_visited) {
+        for (next_edge = vertex2->next_edge; next_edge; next_edge = next_edge->next_edge) {
+          // Check if vertex was visited
+          if (! next_edge->destination_vertex->is_visited) {
+            found_edge = next_edge;
+          }
+        }
+      }
+    }
+
+    /* Promote Maximum to visited */
+    if (found_edge) {
+      found_edge->destination_vertex->is_visited = 1;
+      printf("Exploration for the vertex (%d):   \n", found_edge->destination_vertex->value);
+    }
+  } while (found_edge);
+
+  // Check if all the vertex on the graph was visited.
+  for(vertex2 = graph; vertex2 && vertex2->is_visited; vertex2 = vertex2->next_vertex);
+
+  // Is the graph connected?
+  // The verte2 should be NULL so all the vertex in the graph were visited
+  if (vertex2) {
+    // The graph if not connected
+    return 0;
+  }
+
+  // The graph is connected
+  return 1;
+}

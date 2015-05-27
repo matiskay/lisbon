@@ -17,17 +17,51 @@ int tests_run = 0;
 static char * test_create_graph() {
   Vertex* graph;
 
+  /*
   graph = graph_create_vertex(10);
   graph = graph_insert_vertex(graph, 20);
   graph = graph_insert_vertex(graph, 30);
+  graph = graph_create_edge_between_vertex(graph, 20, 10);
+
+  */
+
+  /* Connected
+  graph = graph_create_vertex(10);
+  graph = graph_insert_vertex(graph, 20);
+  graph = graph_insert_vertex(graph, 30);
+  graph = graph_insert_vertex(graph, 40);
+  graph = graph_insert_vertex(graph, 50);
+
+  graph = graph_create_edge_between_vertex(graph, 10, 40);
+  graph = graph_create_edge_between_vertex(graph, 40, 50);
+  graph = graph_create_edge_between_vertex(graph, 50, 20);
   graph = graph_create_edge_between_vertex(graph, 20, 30);
+  graph = graph_create_edge_between_vertex(graph, 20, 10);
+  */
+
   
   /*Fail case*/
   //graph = graph_create_edge_between_vertex(graph, 10, 30);
+  /*
   graph = graph_create_edge_between_vertex(graph, 30, 10);
 
-
   graph = graph_create_edge_between_vertex(graph, 30, 40);
+  */
+
+  /* Not connected */
+  graph = graph_create_vertex(10);
+  graph = graph_insert_vertex(graph, 20);
+  graph = graph_insert_vertex(graph, 30);
+  graph = graph_insert_vertex(graph, 40);
+  graph = graph_insert_vertex(graph, 50);
+
+  graph = graph_create_edge_between_vertex(graph, 10, 20);
+  graph = graph_create_edge_between_vertex(graph, 20, 30);
+  graph = graph_create_edge_between_vertex(graph, 40, 50);
+
+  /* Start in */
+  printf("is conexed? %d \n", graph_is_connected(graph, 10));
+
 
   printf("----------------------------------------------\n\n");
   graph_print(graph);
