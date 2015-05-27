@@ -32,6 +32,7 @@ Edge* graph_create_edge() {
 }
 
 /* This function will find the values on the graph and then make the connections */
+/* TODO: Return messages as codes. This implies to change the function to make operations over the graph and return codes. */
 Vertex* graph_create_edge_between_vertex(Vertex* graph, int vertex_value1, int vertex_value2) {
   Vertex* vertex1;
   Vertex* vertex2;
@@ -40,31 +41,50 @@ Vertex* graph_create_edge_between_vertex(Vertex* graph, int vertex_value1, int v
   Edge* edge2;
   
   int counter;
+  int flag_is_edge_already_in_graph;
+
+  flag_is_edge_already_in_graph = 0;
   counter = 0;
+
+  if (vertex_value1 == vertex_value2) {
+    printf("[INFO] 'graph_create_edge_between_vertex': It's imposible to create an edge between the same vertex.\n");
+    return graph;
+  }
 
   for (vertex1 = graph; vertex1 != NULL; vertex1 = vertex1->next_vertex) {
 
     for (vertex2 = graph; vertex2 != NULL; vertex2 = vertex2->next_vertex) {
       /* Create the edge between this two vertex */
       if (vertex1->value == vertex_value1 && vertex2->value == vertex_value2) {
-        edge1 = graph_create_edge();
-        edge2 = graph_create_edge();
 
-        /* Vertex1 --> Vertex2 */
-        edge1->destination_vertex = vertex2;
-        edge1->next_edge = vertex1->next_edge;
-        vertex1->next_edge = edge1;
+        if (vertex1->next_edge != NULL) {
+          if (vertex1->next_edge->destination_vertex->value == vertex_value1
+              || vertex1->next_edge->destination_vertex->value == vertex_value2) {
+            flag_is_edge_already_in_graph = 1;
+            continue;
+          }
+        } else {
+          edge1 = graph_create_edge();
+          edge2 = graph_create_edge();
 
-        /* Vertex2 --> Vertex1 */
-        edge2->destination_vertex = vertex1;
-        edge2->next_edge = vertex2->next_edge;
-        vertex2->next_edge = edge2;
-        counter++;
+          /* Vertex1 --> Vertex2 */
+          edge1->destination_vertex = vertex2;
+          edge1->next_edge = vertex1->next_edge;
+          vertex1->next_edge = edge1;
+
+          /* Vertex2 --> Vertex1 */
+          edge2->destination_vertex = vertex1;
+          edge2->next_edge = vertex2->next_edge;
+          vertex2->next_edge = edge2;
+          counter++;
+        }
       }
     }
   }
 
-  if (! counter) {
+  if (flag_is_edge_already_in_graph) {
+    printf("[INFO] 'graph_create_edge_between_vertex': The edge between (%d) and (%d) is already in the Graph.\n", vertex_value1, vertex_value2);
+  } else if (counter == 0) {
     printf("[INFO] 'graph_create_edge_between_vertex': It's imposible to create an edge between (%d) and (%d) because at least one of then is not a vertex of the Graph.\n", vertex_value1, vertex_value2);
   }
 
