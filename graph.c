@@ -2,7 +2,8 @@
 #include <stdio.h>
 #include "graph.h"
 
-#define DEBUG 1
+#define DEBUG 0
+#define SHOW_INFO 0
 
 // Question: Can I assign a NULL to an integer and then use this value to check if the graph has no value
 // Question: I can use a negative number for the graph.
@@ -47,7 +48,9 @@ Vertex* graph_create_edge_between_vertex(Vertex* graph, int vertex_value1, int v
   counter = 0;
 
   if (vertex_value1 == vertex_value2) {
-    printf("[INFO] 'graph_create_edge_between_vertex': It's imposible to create an edge between the same vertex.\n");
+    if (SHOW_INFO) {
+      printf("[INFO] 'graph_create_edge_between_vertex': It's imposible to create an edge between the same vertex.\n");
+    }
     return graph;
   }
 
@@ -92,9 +95,13 @@ Vertex* graph_create_edge_between_vertex(Vertex* graph, int vertex_value1, int v
   }
 
   if (flag_is_edge_already_in_graph) {
-    printf("[INFO] 'graph_create_edge_between_vertex': The edge between (%d) and (%d) is already in the Graph.\n", vertex_value1, vertex_value2);
+    if (SHOW_INFO) {
+      printf("[INFO] 'graph_create_edge_between_vertex': The edge between (%d) and (%d) is already in the Graph.\n", vertex_value1, vertex_value2);
+    }
   } else if (counter == 0) {
-    printf("[INFO] 'graph_create_edge_between_vertex': It's imposible to create an edge between (%d) and (%d) because at least one of then is not a vertex of the Graph.\n", vertex_value1, vertex_value2);
+    if (SHOW_INFO) {
+      printf("[INFO] 'graph_create_edge_between_vertex': It's imposible to create an edge between (%d) and (%d) because at least one of then is not a vertex of the Graph.\n", vertex_value1, vertex_value2);
+    }
   }
 
   return graph;
@@ -114,7 +121,10 @@ Vertex* graph_insert_vertex(Vertex* graph, int value) {
   /* Passing to all the vertex of the graph to check if the vertex is alredy in the graph */
   for (aux_vertex = graph; aux_vertex != NULL; aux_vertex = aux_vertex->next_vertex) {
     if (aux_vertex->value == value) {
-      printf("[INFO] The vertex (%d) exists in the graph G. \n", value);
+
+      if (SHOW_INFO) {
+        printf("[INFO] The vertex (%d) exists in the graph G. \n", value);
+      }
       is_vertex_in_graph = 1;
     }
   }
@@ -196,7 +206,9 @@ int graph_is_connected(Vertex* graph, int value) {
 
   vertex1->is_visited = 1;
 
-  printf("Exploration for the vertex (%d):   \n", vertex1->value);
+  if (SHOW_INFO) {
+    printf("Exploration for the vertex (%d):   \n", vertex1->value);
+  }
 
   do {
     found_edge = NULL;
@@ -214,7 +226,9 @@ int graph_is_connected(Vertex* graph, int value) {
     /* Promote Maximum to visited */
     if (found_edge) {
       found_edge->destination_vertex->is_visited = 1;
-      printf("Exploration for the vertex (%d):   \n", found_edge->destination_vertex->value);
+      if (SHOW_INFO) {
+        printf("Exploration for the vertex (%d):   \n", found_edge->destination_vertex->value);
+      }
     }
   } while (found_edge);
 

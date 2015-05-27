@@ -14,18 +14,9 @@
 
 int tests_run = 0;
 
-static char * test_create_graph() {
+static char * test_graph_connected_graph() {
   Vertex* graph;
 
-  /*
-  graph = graph_create_vertex(10);
-  graph = graph_insert_vertex(graph, 20);
-  graph = graph_insert_vertex(graph, 30);
-  graph = graph_create_edge_between_vertex(graph, 20, 10);
-
-  */
-
-  /* Connected
   graph = graph_create_vertex(10);
   graph = graph_insert_vertex(graph, 20);
   graph = graph_insert_vertex(graph, 30);
@@ -37,18 +28,14 @@ static char * test_create_graph() {
   graph = graph_create_edge_between_vertex(graph, 50, 20);
   graph = graph_create_edge_between_vertex(graph, 20, 30);
   graph = graph_create_edge_between_vertex(graph, 20, 10);
-  */
 
-  
-  /*Fail case*/
-  //graph = graph_create_edge_between_vertex(graph, 10, 30);
-  /*
-  graph = graph_create_edge_between_vertex(graph, 30, 10);
+  mu_assert("error, test_unit 1 != 1", graph_is_connected(graph, 10) == 1);
+  return 0;
+}
 
-  graph = graph_create_edge_between_vertex(graph, 30, 40);
-  */
+static char * test_test_not_connected_graph() {
+  Vertex* graph;
 
-  /* Not connected */
   graph = graph_create_vertex(10);
   graph = graph_insert_vertex(graph, 20);
   graph = graph_insert_vertex(graph, 30);
@@ -59,15 +46,7 @@ static char * test_create_graph() {
   graph = graph_create_edge_between_vertex(graph, 20, 30);
   graph = graph_create_edge_between_vertex(graph, 40, 50);
 
-  /* Start in */
-  printf("is conexed? %d \n", graph_is_connected(graph, 10));
-
-
-  printf("----------------------------------------------\n\n");
-  graph_print(graph);
-  printf("\n\n----------------------------------------------\n");
-
-  mu_assert("error, test_unit 1 != 1", 1 == 1);
+  mu_assert("test_test_not_connected_graph", graph_is_connected(graph, 10) == 0);
   return 0;
 }
 
@@ -78,7 +57,7 @@ static char * test_unit() {
 
 static char * all_tests() {
   mu_run_test(test_unit);
-  mu_run_test(test_create_graph);
+  mu_run_test(test_test_not_connected_graph);
   return 0;
 }
 
