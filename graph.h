@@ -37,7 +37,6 @@ Vertex* graph_create_vertex(int);
 Vertex* graph_create_empty_vertex(void);
 Vertex* graph_create_edge_between_vertex(Vertex*, int, int);
 
-/* TODO: Create vertex */
 Edge* graph_create_edge(void);
 
 void graph_vertex_set_value(Vertex*, int);
@@ -48,3 +47,7 @@ Edge* graph_remove_edge(Edge*, int);
 // Every graph at least has a node
 void graph_print(Vertex*);
 int graph_is_connected(Vertex*, int);
+
+Vertex* graph_destroy(Vertex*);
+Vertex* graph_free_vertex(Vertex*);
+Edge* graph_free_edge(Edge*); 

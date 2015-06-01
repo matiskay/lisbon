@@ -42,6 +42,10 @@ static char * test_graph_remove_vertex() {
   graph = graph_remove_vertex(graph, 40);
   graph_print(graph);
 
+  graph = graph_destroy(graph);
+
+  graph_print(graph);
+
 
   /*
   mu_assert("error, test_unit 1 != 1", graph_is_connected(graph, 10) == 1);

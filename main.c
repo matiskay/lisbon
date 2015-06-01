@@ -73,6 +73,8 @@ int main(int argc, char **argv) {
       }
     } else if(strcmp(line, "print") == 0) {
       graph_print(graph);
+    } else if(strcmp(line, "destroy") == 0) {
+      graph = graph_destroy(graph);
     } else if (strcmp(line, "help") == 0) {
       printf("   exit                                     :      Exit the program.\n");
       printf("   help                                     :      Help for the program.\n");

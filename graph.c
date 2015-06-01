@@ -250,7 +250,7 @@ int graph_is_connected(Vertex* graph, int value) {
   for(vertex2 = graph; vertex2 && vertex2->is_visited; vertex2 = vertex2->next_vertex);
 
   // Is the graph connected?
-  // The verte2 should be NULL so all the vertex in the graph were visited
+  // vertex2 is NULL if all the vertex in the graph were visited.
   if (vertex2) {
     // The graph if not connected
     return 0;
@@ -341,4 +341,42 @@ Vertex* graph_remove_vertex(Vertex* graph, int vertex_value) {
 //  free(current_vertex);
 
   return graph;
+}
+
+Vertex* graph_destroy(Vertex* graph) {
+  Vertex* aux_vertex;
+
+  for (aux_vertex = graph; aux_vertex != NULL; aux_vertex = aux_vertex->next_vertex) {
+    aux_vertex->next_edge = graph_free_edge(aux_vertex->next_edge);
+  }
+
+  graph = graph_free_vertex(graph);
+
+  return graph;
+}
+
+Vertex* graph_free_vertex(Vertex* vertex) {
+  Vertex* aux_vertex;
+
+  aux_vertex = vertex;
+
+  while (aux_vertex != NULL) {
+    Vertex* current_vertex = aux_vertex->next_vertex;
+    free(aux_vertex);
+    aux_vertex = current_vertex;
+  }
+
+  return aux_vertex;
+}
+
+Edge* graph_free_edge(Edge* edge) {
+  Edge* aux_edge = edge;
+
+  while (aux_edge != NULL) {
+    Edge* current_edge = aux_edge->next_edge;
+    free(aux_edge);
+    aux_edge = current_edge;
+  }
+
+  return aux_edge;
 }
