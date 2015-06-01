@@ -4,7 +4,10 @@
 #include "graph.h"
 
 #define MAXIMUN_LENGTH_OF_THE_INPUT_STRING 300
+#define MAX_REPL_ARGUMENT_SIZE 100
 
+// Colors
+// TODO: Promote this to a header file something called rainbow.h
 #define KNRM  "\x1B[0m"
 #define KRED  "\x1B[31m"
 #define KGRN  "\x1B[32m"
@@ -17,13 +20,14 @@
 
 // TODO: Create a function to get all the values of the string something like var_dump
 
-static void finish(int sig);
+void display_header(void);
+void display_help(void);
 
 char* get_line(void); 
 
-/* Add function signatures here */
-
-/* Reference: http://viget.com/extend/game-programming-in-c-with-the-ncurses-library */
+/**
+ * TODO: Use Ncurses
+ * Reference: http://viget.com/extend/game-programming-in-c-with-the-ncurses-library */
 // gcc main.c -lncurses
 
 /**
@@ -43,9 +47,9 @@ char* get_line(void);
 int main(int argc, char **argv) {
   char* line;
   int line_number;
-  char command[100];
-  char variable1[100];
-  char variable2[100];
+  char command[MAX_REPL_ARGUMENT_SIZE];
+  char variable1[MAX_REPL_ARGUMENT_SIZE];
+  char variable2[MAX_REPL_ARGUMENT_SIZE];
   char character;
   int flag_is_graph_initialized;
   Vertex* graph;
@@ -53,14 +57,10 @@ int main(int argc, char **argv) {
   flag_is_graph_initialized = 0;
   line_number = 1;
 
-  printf("   __ _     _                     " KGRN "|   Lisbon\n" RESET); 
-  printf("  / /(_)___| |__   ___  _ __      " KGRN "|" RESET KMAG "   A basic graph REPL \n" RESET);
-  printf(" / / | / __| '_ \\ / _ \\| '_ \\     " KGRN "|" RESET " \n");
-  printf("/ /__| \\__ \\ |_) | (_) | | | |    " KGRN "|" RESET "   Data Structures and Applications\n");
-  printf("\\____/_|___/_.__/ \\___/|_| |_|    " KGRN "|" RESET "   GA-024\n");
-  printf("\n");
+  display_header();
                               
 
+  // TODO: Refactor this mess
   while (1) {
     printf("lisbon:%.3i> ", line_number);
     line = get_line();
@@ -71,18 +71,12 @@ int main(int argc, char **argv) {
       if (strcmp(line, "y") == 0) {
         break;
       }
-    } else if(strcmp(line, "print") == 0) {
+    } else if (strcmp(line, "print") == 0) {
       graph_print(graph);
-    } else if(strcmp(line, "destroy") == 0) {
+    } else if (strcmp(line, "destroy") == 0) {
       graph = graph_destroy(graph);
     } else if (strcmp(line, "help") == 0) {
-      printf("   exit                                     :      Exit the program.\n");
-      printf("   help                                     :      Help for the program.\n");
-      printf("   print                                    :      Print the graph.\n");
-      printf("   vertex <integer-number>                  :      Add vertex to the graph.\n");
-      printf("   edge <integer-number> <integer-number>   :      Create a vertex between vertexs.\n");
-      printf("   is_connected                             :      Check if the current graph is connected.\n");
-      printf("   destroy                                  :      Create a vertex between vertexs.\n");
+      display_help();
     } else {
 
       sscanf(line, "%s %s %s", command, variable1, variable2);
@@ -96,7 +90,7 @@ int main(int argc, char **argv) {
             flag_is_graph_initialized = 1;
           }
         }
-      } else if(strcmp(command, "is_connected") == 0) {
+      } else if (strcmp(command, "is_connected") == 0) {
         if (graph_is_connected(graph, atoi(variable1)) == 0) {
           printf("=> no \n");
         } else {
@@ -115,6 +109,7 @@ int main(int argc, char **argv) {
   return 0;
 }
 
+// TODO: Check overflow
 char* get_line() {
   char* line;
   int index;
@@ -135,4 +130,23 @@ char* get_line() {
   line[index] = '\0';
 
   return line;
+}
+
+void display_header() {
+  printf("   __ _     _                     " KGRN "|   Lisbon\n" RESET); 
+  printf("  / /(_)___| |__   ___  _ __      " KGRN "|" RESET KMAG "   A basic graph REPL \n" RESET);
+  printf(" / / | / __| '_ \\ / _ \\| '_ \\     " KGRN "|" RESET " \n");
+  printf("/ /__| \\__ \\ |_) | (_) | | | |    " KGRN "|" RESET "   Data Structures and Applications\n");
+  printf("\\____/_|___/_.__/ \\___/|_| |_|    " KGRN "|" RESET "   GA-024\n");
+  printf("\n");
+}
+
+void display_help() {
+  printf("   exit                                     :      Exit the program.\n");
+  printf("   help                                     :      Help for the program.\n");
+  printf("   print                                    :      Print the graph.\n");
+  printf("   vertex <integer-number>                  :      Add vertex to the graph.\n");
+  printf("   edge <integer-number> <integer-number>   :      Create a vertex between vertexs.\n");
+  printf("   is_connected                             :      Check if the current graph is connected.\n");
+  printf("   destroy                                  :      Create a vertex between vertexs.\n");
 }

@@ -13,6 +13,7 @@ struct vertex {
   int value;
   int is_visited;
   /* NOTE: The name should be next vertex in the graph */
+  /* TODO: Renamte this variable to next_vertex_of_the_graph; */
   struct vertex* next_vertex; /* Next vertex in the collection of vertex, next vertex doesn't mean connected  */
   /* The name should be edge */
   struct edge* next_edge;
@@ -27,7 +28,8 @@ struct edge {
   /* destination Vertex */
   struct vertex* destination_vertex;
   // Next Edge in the graph
-  struct edge* next_edge; /* TODO: What is the purpose of this structure? */
+  // This a collection of edges from the graph. Rename this variable to next_edge_of_the_graph
+  struct edge* next_edge;
 };
 
 typedef struct vertex Vertex;
@@ -43,6 +45,7 @@ void graph_vertex_set_value(Vertex*, int);
 Vertex* graph_insert_vertex(Vertex*, int);
 Vertex* graph_remove_vertex(Vertex*, int);
 Edge* graph_remove_edge(Edge*, int);
+
 // This should be the initial node
 // Every graph at least has a node
 void graph_print(Vertex*);

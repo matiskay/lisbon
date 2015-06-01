@@ -70,6 +70,7 @@ Vertex* graph_create_edge_between_vertex(Vertex* graph, int vertex_value1, int v
     return graph;
   }
 
+  // Inception :)
   for (vertex1 = graph; vertex1 != NULL; vertex1 = vertex1->next_vertex) {
 
     for (vertex2 = graph; vertex2 != NULL; vertex2 = vertex2->next_vertex) {
@@ -237,7 +238,6 @@ int graph_is_connected(Vertex* graph, int value) {
       }
     }
 
-    /* Promote Maximum to visited */
     if (found_edge) {
       found_edge->destination_vertex->is_visited = 1;
       if (SHOW_INFO) {
@@ -317,7 +317,6 @@ Vertex* graph_remove_vertex(Vertex* graph, int vertex_value) {
   aux_edge1 = current_vertex->next_edge;
 
   //printf("(1)----> destination_vertex:    %d\n", aux_edge1->destination_vertex->value);
-  // Check
   
   while (aux_edge1 != NULL) {
     Edge* new_edge;
