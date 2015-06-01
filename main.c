@@ -5,6 +5,16 @@
 
 #define MAXIMUN_LENGTH_OF_THE_INPUT_STRING 300
 
+#define KNRM  "\x1B[0m"
+#define KRED  "\x1B[31m"
+#define KGRN  "\x1B[32m"
+#define KYEL  "\x1B[33m"
+#define KBLU  "\x1B[34m"
+#define KMAG  "\x1B[35m"
+#define KCYN  "\x1B[36m"
+#define KWHT  "\x1B[37m"
+#define RESET "\033[0m"
+
 // TODO: Create a function to get all the values of the string something like var_dump
 
 static void finish(int sig);
@@ -43,11 +53,11 @@ int main(int argc, char **argv) {
   flag_is_graph_initialized = 0;
   line_number = 1;
 
-  printf("   __ _     _                     |   Lisbon\n"); 
-  printf("  / /(_)___| |__   ___  _ __      |   A basic graph REPL \n");
-  printf(" / / | / __| '_ \\ / _ \\| '_ \\     | \n");
-  printf("/ /__| \\__ \\ |_) | (_) | | | |    |   By matiskay \n");
-  printf("\\____/_|___/_.__/ \\___/|_| |_|    |    email: AUTHOR PLUS LISBON AT GMAIL DOT COM\n");
+  printf("   __ _     _                     " KGRN "|   Lisbon\n" RESET); 
+  printf("  / /(_)___| |__   ___  _ __      " KGRN "|" RESET KMAG "   A basic graph REPL \n" RESET);
+  printf(" / / | / __| '_ \\ / _ \\| '_ \\     " KGRN "|" RESET " \n");
+  printf("/ /__| \\__ \\ |_) | (_) | | | |    " KGRN "|" RESET "   Data Structures and Applications\n");
+  printf("\\____/_|___/_.__/ \\___/|_| |_|    " KGRN "|" RESET "   GA-024\n");
   printf("\n");
                               
 
@@ -64,11 +74,13 @@ int main(int argc, char **argv) {
     } else if(strcmp(line, "print") == 0) {
       graph_print(graph);
     } else if (strcmp(line, "help") == 0) {
-      printf("   exit                                  :      Exit the program.\n");
-      printf("   help                                  :      Help for the program.\n");
-      printf("   print                                 :     Print the graph.\n");
-      printf("   vertex <integer-number>               :     Add vertex to the graph.\n");
-      printf("   edge <integer-number> <integer-number>:     Create a vertex between vertexs.\n");
+      printf("   exit                                     :      Exit the program.\n");
+      printf("   help                                     :      Help for the program.\n");
+      printf("   print                                    :      Print the graph.\n");
+      printf("   vertex <integer-number>                  :      Add vertex to the graph.\n");
+      printf("   edge <integer-number> <integer-number>   :      Create a vertex between vertexs.\n");
+      printf("   is_connected                             :      Check if the current graph is connected.\n");
+      printf("   destroy                                  :      Create a vertex between vertexs.\n");
     } else {
 
       sscanf(line, "%s %s %s", command, variable1, variable2);
