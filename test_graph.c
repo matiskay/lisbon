@@ -14,6 +14,42 @@
 
 int tests_run = 0;
 
+static char * test_graph_remove_vertex() {
+  Vertex* graph;
+
+  graph = graph_create_vertex(10);
+  graph = graph_insert_vertex(graph, 20);
+  graph = graph_insert_vertex(graph, 30);
+  graph = graph_insert_vertex(graph, 40);
+  graph = graph_insert_vertex(graph, 50);
+
+  graph = graph_create_edge_between_vertex(graph, 10, 40);
+  graph = graph_create_edge_between_vertex(graph, 40, 50);
+  graph = graph_create_edge_between_vertex(graph, 50, 20);
+  graph = graph_create_edge_between_vertex(graph, 20, 30);
+  graph = graph_create_edge_between_vertex(graph, 20, 10);
+  graph_print(graph);
+
+  printf("\n\nRemoving 10 from graph\n\n");
+  graph = graph_remove_vertex(graph, 10);
+  graph_print(graph);
+
+  printf("\n\nRemoving 20 from graph\n\n");
+  graph = graph_remove_vertex(graph, 20);
+  graph_print(graph);
+
+  printf("\n\nRemoving 40 from graph\n\n");
+  graph = graph_remove_vertex(graph, 40);
+  graph_print(graph);
+
+
+  /*
+  mu_assert("error, test_unit 1 != 1", graph_is_connected(graph, 10) == 1);
+  */
+  return 0;
+}
+
+
 static char * test_graph_connected_graph() {
   Vertex* graph;
 
@@ -58,6 +94,8 @@ static char * test_unit() {
 static char * all_tests() {
   mu_run_test(test_unit);
   mu_run_test(test_test_not_connected_graph);
+  mu_run_test(test_graph_connected_graph);
+  mu_run_test(test_graph_remove_vertex);
   return 0;
 }
 

@@ -260,15 +260,85 @@ int graph_is_connected(Vertex* graph, int value) {
   return 1;
 }
 
-void graph_remove_edge(Edge* edge, int vertex_value) {
-  Edge* previous;
+Edge* graph_remove_edge(Edge* edge, int vertex_value) {
+  Edge* previous_edge;
   Edge* aux_edge;
 
-  previous = NULL;
+  previous_edge = NULL;
   aux_edge = edge;
 
   while (aux_edge != NULL && aux_edge->destination_vertex->value != vertex_value) {
-    previous = aux_edge;
+    previous_edge = aux_edge;
     aux_edge = aux_edge->next_edge;
   }
+
+  if (aux_edge == NULL) {
+    return edge;
+  }
+  
+  if (previous_edge == NULL) {
+    edge = aux_edge->next_edge;
+  } else {
+    previous_edge->next_edge = aux_edge->next_edge;
+  }
+  free(previous_edge);
+
+  return edge;
+}
+
+Vertex* graph_remove_vertex(Vertex* graph, int vertex_value) {
+  Vertex* previous_vertex;
+  Vertex* current_vertex;
+  Vertex* aux_vertex;
+
+  Edge* aux_edge1;
+  Edge* aux_edge2;
+
+  previous_vertex = NULL;
+  current_vertex = graph;
+
+  while (current_vertex != NULL && current_vertex->value != vertex_value) {
+    previous_vertex = current_vertex;
+    current_vertex = current_vertex->next_vertex;
+  }
+
+  if (current_vertex == NULL) {
+    return graph;
+  } else {
+    for (aux_edge2 = current_vertex->next_edge; aux_edge2 != NULL; aux_edge2 = aux_edge2->next_edge) {
+      for (aux_vertex = graph; aux_vertex != NULL; aux_vertex = aux_vertex->next_vertex) {
+        if (aux_edge2->destination_vertex == aux_vertex && aux_vertex != current_vertex) {
+          aux_vertex->next_edge = graph_remove_edge(aux_vertex->next_edge, current_vertex->value);
+        }
+      }
+    }
+  }
+
+  aux_edge1 = current_vertex->next_edge;
+
+  //printf("(1)----> destination_vertex:    %d\n", aux_edge1->destination_vertex->value);
+  // Check
+  
+  while (aux_edge1 != NULL) {
+    Edge* new_edge;
+
+    if (aux_edge1->next_edge != NULL) {
+      new_edge = aux_edge1->next_edge;
+      aux_edge1 = new_edge;
+    } else {
+      aux_edge1 = NULL;
+    }
+  }
+
+  current_vertex->next_edge = aux_edge1;
+
+  if (previous_vertex == NULL) {
+    graph = current_vertex->next_vertex;
+  } else {
+    previous_vertex->next_vertex = current_vertex->next_vertex;
+  }
+
+//  free(current_vertex);
+
+  return graph;
 }

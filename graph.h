@@ -42,8 +42,8 @@ Edge* graph_create_edge(void);
 
 void graph_vertex_set_value(Vertex*, int);
 Vertex* graph_insert_vertex(Vertex*, int);
-void graph_exclude_vertex(Vertex*);
-void graph_remove_edge(Edge*, int);
+Vertex* graph_remove_vertex(Vertex*, int);
+Edge* graph_remove_edge(Edge*, int);
 // This should be the initial node
 // Every graph at least has a node
 void graph_print(Vertex*);
