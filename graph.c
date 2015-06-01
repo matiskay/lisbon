@@ -22,6 +22,21 @@ Vertex* graph_create_vertex(int value) {
   return vertex;
 }
 
+Vertex* graph_create_empty_vertex() {
+  Vertex* vertex;
+  vertex = (Vertex*) malloc(sizeof(Vertex));
+
+  // Zero by default.
+  // Condition:
+  //   All the values of the graph must greater than 0
+  vertex->value = 0;
+  vertex->next_edge = NULL;
+  vertex->next_vertex = NULL;
+  vertex->is_visited = 0;
+
+  return vertex;
+}
+
 /* Create basic scaffold for edge. */
 Edge* graph_create_edge() {
   Edge* edge;
@@ -34,6 +49,7 @@ Edge* graph_create_edge() {
 
 /* This function will find the values on the graph and then make the connections */
 /* TODO: Return messages as codes. This implies to change the function to make operations over the graph and return codes. */
+/* TODO: Refactor!!!! */
 Vertex* graph_create_edge_between_vertex(Vertex* graph, int vertex_value1, int vertex_value2) {
   Vertex* vertex1;
   Vertex* vertex2;
@@ -169,15 +185,13 @@ void graph_print(Vertex* graph) {
         vertex2 = edge->destination_vertex;
         printf("   Destination vertex (%d) \n", vertex2->value);
       }
-      number_of_vertex++;
     }
+    number_of_vertex++;
   }
 
-  /*
-  if ((number_of_vertex == 0) && (number_of_edges == 0)) {
+  if (number_of_vertex == 0) {
     printf("The graph is empty\n");
   }
-  */
 }
 
 /* Check if the current vertex from the graph is conexed */
@@ -244,4 +258,17 @@ int graph_is_connected(Vertex* graph, int value) {
 
   // The graph is connected
   return 1;
+}
+
+void graph_remove_edge(Edge* edge, int vertex_value) {
+  Edge* previous;
+  Edge* aux_edge;
+
+  previous = NULL;
+  aux_edge = edge;
+
+  while (aux_edge != NULL && aux_edge->destination_vertex->value != vertex_value) {
+    previous = aux_edge;
+    aux_edge = aux_edge->next_edge;
+  }
 }
