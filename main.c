@@ -8,15 +8,13 @@
 
 // Colors
 // TODO: Promote this to a header file something called rainbow.h
-#define KNRM  "\x1B[0m"
 #define KRED  "\x1B[31m"
 #define KGRN  "\x1B[32m"
-#define KYEL  "\x1B[33m"
-#define KBLU  "\x1B[34m"
 #define KMAG  "\x1B[35m"
-#define KCYN  "\x1B[36m"
-#define KWHT  "\x1B[37m"
 #define RESET "\033[0m"
+
+
+#define PROMPT "lisbon:%.3i> "
 
 // TODO: Create a function to get all the values of the string something like var_dump
 
@@ -50,7 +48,6 @@ int main(int argc, char **argv) {
   char command[MAX_REPL_ARGUMENT_SIZE];
   char variable1[MAX_REPL_ARGUMENT_SIZE];
   char variable2[MAX_REPL_ARGUMENT_SIZE];
-  char character;
   int flag_is_graph_initialized;
   Vertex* graph;
 
@@ -58,12 +55,16 @@ int main(int argc, char **argv) {
   line_number = 1;
 
   display_header();
-                              
 
   // TODO: Refactor this mess
   while (1) {
-    printf("lisbon:%.3i> ", line_number);
+    printf(PROMPT, line_number);
+
     line = get_line();
+
+    // Reset variables
+    variable1[0] = '\0';
+    variable2[0] = '\0';
 
     if (strcmp(line, "exit") == 0) {
       printf("Do you really want to exit ([y]/n)? ");
@@ -91,11 +92,21 @@ int main(int argc, char **argv) {
           }
         }
       } else if (strcmp(command, "is_connected") == 0) {
-        if (graph_is_connected(graph, atoi(variable1)) == 0) {
-          printf("=> no \n");
+        if (graph != NULL) {
+
+          if (strcmp(variable1, " ") == 0) {
+            if (graph_is_connected(graph, atoi(variable1)) == 0) {
+              printf("=> no \n");
+            } else {
+              printf("=> yes \n");
+            }
+          } else {
+            printf("Please specify the vertex to start. is_connected <vertex-value> \n");
+          }
         } else {
-          printf("=> yes \n");
+          printf("The graph is empty. Please add a vertex. \n");
         }
+
       } else if (strcmp(command, "edge") == 0) {
         graph = graph_create_edge_between_vertex(graph, atoi(variable1), atoi(variable2));
       } else {
@@ -117,13 +128,13 @@ char* get_line() {
   line = malloc(MAXIMUN_LENGTH_OF_THE_INPUT_STRING);
   index = 0;
 
-  line[index] = getchar();
+  line[index] = (char) getchar();
   
   // This command includes "\n" at the end
   while (line[index] != '\n') {
     index++;
     if (line[index] != '\n') {
-      line[index] = getchar();
+      line[index] = (char) getchar();
     }
   }
 

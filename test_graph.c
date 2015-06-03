@@ -14,6 +14,28 @@
 
 int tests_run = 0;
 
+static char * test_construction() {
+  Vertex* graph;
+
+  printf("Test construction \n\n");
+
+  graph = graph_create_vertex(10);
+  graph = graph_insert_vertex(graph, 20);
+  graph = graph_insert_vertex(graph, 30);
+  graph = graph_insert_vertex(graph, 40);
+  graph = graph_insert_vertex(graph, 50);
+  graph = graph_insert_vertex(graph, 60);
+  graph = graph_insert_vertex(graph, 70);
+  graph = graph_insert_vertex(graph, 80);
+
+  graph = graph_create_edge_between_vertex(graph, 10, 20);
+  graph = graph_create_edge_between_vertex(graph, 70, 80);
+  graph = graph_create_edge_between_vertex(graph, 80, 10);
+  graph_print(graph);
+  mu_assert("error, test_construction", 1 == 1);
+  return 0;
+}
+
 static char * test_graph_remove_vertex() {
   Vertex* graph;
 
@@ -97,6 +119,7 @@ static char * test_unit() {
 
 static char * all_tests() {
   mu_run_test(test_unit);
+  mu_run_test(test_construction);
   mu_run_test(test_test_not_connected_graph);
   mu_run_test(test_graph_connected_graph);
   mu_run_test(test_graph_remove_vertex);

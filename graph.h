@@ -1,4 +1,4 @@
-// Avoid: note: forward declaration of 'struct node'
+// Avoid: forward declaration of 'struct node'
 // If you add the declaration here you expose the struct to be public.
 // You can hide the structure but you have to create a method to get the values.
 // Never use typedef inside structs. It may cause conflicts.
@@ -7,7 +7,6 @@
 /**
  * A -> B
  * A: vertex
- * B: final_vertex
  */
 struct vertex {
   int value;
@@ -21,8 +20,7 @@ struct vertex {
 
 /* 
  * A -> B
- * A: Initial Vertex
- * B: Final Vertex
+ * B: Destination Vertex
  */
 struct edge {
   /* destination Vertex */

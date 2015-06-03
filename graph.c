@@ -135,7 +135,7 @@ Vertex* graph_insert_vertex(Vertex* graph, int value) {
   int is_vertex_in_graph;
   is_vertex_in_graph = 0;
 
-  /* Passing to all the vertex of the graph to check if the vertex is alredy in the graph */
+  /* Passing to all the vertex of the graph to check if the vertex is already in the graph */
   for (aux_vertex = graph; aux_vertex != NULL; aux_vertex = aux_vertex->next_vertex) {
     if (aux_vertex->value == value) {
 
@@ -172,10 +172,8 @@ void graph_print(Vertex* graph) {
    * NOTE: This information can be used for statistics
    * */
   int number_of_vertex;
-  int number_of_edges;
 
   number_of_vertex = 0;
-  number_of_edges = 0;
 
   for (vertex1 = graph; vertex1 != NULL; vertex1 = vertex1->next_vertex) {
     printf("Vertex (%d) \n", vertex1->value);
