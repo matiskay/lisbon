@@ -13,8 +13,9 @@ struct vertex {
   int is_visited;
   /* NOTE: The name should be next vertex in the graph */
   /* TODO: Renamte this variable to next_vertex_of_the_graph; */
-  struct vertex* next_vertex; /* Next vertex in the collection of vertex, next vertex doesn't mean connected  */
+  struct vertex* next_vertex_in_graph; /* Next vertex in the collection of vertex, next vertex doesn't mean connected  */
   /* The name should be edge */
+  /* It should be called edge_to */
   struct edge* next_edge;
 };
 
@@ -24,10 +25,11 @@ struct vertex {
  */
 struct edge {
   /* destination Vertex */
+  /* vertex_to */
   struct vertex* destination_vertex;
   // Next Edge in the graph
   // This a collection of edges from the graph. Rename this variable to next_edge_of_the_graph
-  struct edge* next_edge;
+  struct edge* next_edge_in_graph;
 };
 
 typedef struct vertex Vertex;
@@ -51,4 +53,6 @@ int graph_is_connected(Vertex*, int);
 
 Vertex* graph_destroy(Vertex*);
 Vertex* graph_free_vertex(Vertex*);
-Edge* graph_free_edge(Edge*); 
+Edge* graph_free_edge(Edge*);
+
+int graph_is_there_an_edge(Vertex*, int, int);
