@@ -1,3 +1,11 @@
 *.o
 main
 test_graph
+lisbon
+Session.vim
+.idea
+CMakeFiles
+install_manifest.txt
+cmake_install.cmake
+libgraph.a
+.*
