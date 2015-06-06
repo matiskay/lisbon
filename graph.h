@@ -55,4 +55,5 @@ Vertex* graph_destroy(Vertex*);
 Vertex* graph_free_vertex(Vertex*);
 Edge* graph_free_edge(Edge*);
 
-int graph_is_there_an_edge(Vertex*, int, int);
+int graph_is_there_an_edge_between_vertex(Vertex *, int, int);
+int graph_is_vertex_in_graph(Vertex*, int);

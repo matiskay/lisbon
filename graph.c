@@ -82,7 +82,7 @@ Vertex* graph_create_edge_between_vertex(Vertex* graph, int vertex_value1, int v
     return graph;
 }
 
-int graph_is_there_an_edge(Vertex* graph, int vertex_value1, int vertex_value2) {
+int graph_is_there_an_edge_between_vertex(Vertex *graph, int vertex_value1, int vertex_value2) {
     Vertex* vertex1;
     Vertex* vertex2;
 
@@ -283,60 +283,82 @@ Edge* graph_remove_edge(Edge* edge, int vertex_value) {
   return edge;
 }
 
-Vertex* graph_remove_vertex(Vertex* graph, int vertex_value) {
-  Vertex* previous_vertex;
-  Vertex* current_vertex;
-  Vertex* aux_vertex;
 
-  Edge* aux_edge1;
-  Edge* aux_edge2;
+int graph_is_vertex_in_graph(Vertex* graph, int value) {
+    Vertex* aux_vertex;
 
-  previous_vertex = NULL;
-  current_vertex = graph;
-
-  while (current_vertex != NULL && current_vertex->value != vertex_value) {
-    previous_vertex = current_vertex;
-    current_vertex = current_vertex->next_vertex_in_graph;
-  }
-
-  if (current_vertex == NULL) {
-    return graph;
-  } else {
-    for (aux_edge2 = current_vertex->next_edge; aux_edge2 != NULL; aux_edge2 = aux_edge2->next_edge_in_graph) {
-      for (aux_vertex = graph; aux_vertex != NULL; aux_vertex = aux_vertex->next_vertex_in_graph) {
-        if (aux_edge2->destination_vertex == aux_vertex && aux_vertex != current_vertex) {
-          aux_vertex->next_edge = graph_remove_edge(aux_vertex->next_edge, current_vertex->value);
+    for (aux_vertex = graph; aux_vertex != NULL; aux_vertex = aux_vertex->next_vertex_in_graph) {
+        if (aux_vertex->value == value) {
+            return 1;
         }
-      }
     }
-  }
 
-  aux_edge1 = current_vertex->next_edge;
+    return 0;
+}
 
-  //printf("(1)----> destination_vertex:    %d\n", aux_edge1->destination_vertex->value);
-  
-  while (aux_edge1 != NULL) {
-    Edge* new_edge;
+Vertex* graph_remove_vertex(Vertex* graph, int vertex_value) {
+    Vertex* previous_vertex;
+    Vertex* current_vertex;
+    Vertex* aux_vertex;
 
-    if (aux_edge1->next_edge_in_graph != NULL) {
-      new_edge = aux_edge1->next_edge_in_graph;
-      aux_edge1 = new_edge;
+    Edge* aux_edge1;
+    Edge* aux_edge2;
+
+    previous_vertex = NULL;
+    current_vertex = graph;
+
+    // Find the vertex to be remove it
+    while (current_vertex != NULL && current_vertex->value != vertex_value) {
+        previous_vertex = current_vertex;
+        current_vertex = current_vertex->next_vertex_in_graph;
+    }
+
+    // If the vertex is no in the graph return the same graph.
+    if (current_vertex == NULL) {
+        return graph;
     } else {
-      aux_edge1 = NULL;
+        // If found the vertex. Remove the edges.
+
+        for (aux_edge2 = current_vertex->next_edge; aux_edge2 != NULL; aux_edge2 = aux_edge2->next_edge_in_graph) {
+
+            // Walk to all the vertex in the graph.
+            for (aux_vertex = graph; aux_vertex != NULL; aux_vertex = aux_vertex->next_vertex_in_graph) {
+
+                // Check if the edges is connected to one node then remove it.
+                if (aux_edge2->destination_vertex == aux_vertex && aux_vertex != current_vertex) {
+                    aux_vertex->next_edge = graph_remove_edge(aux_vertex->next_edge, current_vertex->value);
+                }
+
+            }
+        }
     }
-  }
 
-  current_vertex->next_edge = aux_edge1;
+    aux_edge1 = current_vertex->next_edge;
 
-  if (previous_vertex == NULL) {
-    graph = current_vertex->next_vertex_in_graph;
-  } else {
-    previous_vertex->next_vertex_in_graph = current_vertex->next_vertex_in_graph;
-  }
+    //printf("(1)----> destination_vertex:    %d\n", aux_edge1->destination_vertex->value);
 
-//  free(current_vertex);
+    while (aux_edge1 != NULL) {
+        Edge* new_edge;
 
-  return graph;
+        if (aux_edge1->next_edge_in_graph != NULL) {
+            new_edge = aux_edge1->next_edge_in_graph;
+            aux_edge1 = new_edge;
+        } else {
+            aux_edge1 = NULL;
+        }
+    }
+
+    current_vertex->next_edge = aux_edge1;
+
+    if (previous_vertex == NULL) {
+        graph = current_vertex->next_vertex_in_graph;
+    } else {
+        previous_vertex->next_vertex_in_graph = current_vertex->next_vertex_in_graph;
+    }
+
+    free(current_vertex);
+
+    return graph;
 }
 
 Vertex* graph_destroy(Vertex* graph) {
