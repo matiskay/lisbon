@@ -246,6 +246,26 @@ static char * test_graph_remove_vertex() {
     return 0;
 }
 
+static char * test_graph_connected_graph() {
+    Vertex* graph;
+
+    graph = graph_create_vertex(10);
+    graph = graph_insert_vertex(graph, 20);
+    graph = graph_insert_vertex(graph, 30);
+    graph = graph_insert_vertex(graph, 40);
+    graph = graph_insert_vertex(graph, 50);
+
+    graph = graph_create_edge_between_vertex(graph, 10, 40);
+    graph = graph_create_edge_between_vertex(graph, 40, 50);
+    graph = graph_create_edge_between_vertex(graph, 50, 20);
+    graph = graph_create_edge_between_vertex(graph, 20, 30);
+    graph = graph_create_edge_between_vertex(graph, 20, 10);
+
+
+    mu_assert("error, test_unit 1 != 1", graph_is_connected(graph, 10) == 1);
+    return 0;
+}
+
 
 static char * test_graph_connected_graph() {
     Vertex* graph;
