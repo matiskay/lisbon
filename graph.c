@@ -43,7 +43,7 @@ Edge* graph_create_edge() {
   edge = (Edge*) malloc(sizeof(Edge));
 
   edge->destination_vertex = NULL;
-  edge->next_edge_in_graph = NULL;
+  edge->next_edge = NULL;
   return edge;
 }
 
@@ -68,12 +68,12 @@ Vertex* graph_create_edge_between_vertex(Vertex* graph, int vertex_value1, int v
 
                 /* Vertex1 --> Vertex2 */
                 edge1->destination_vertex = vertex2;
-                edge1->next_edge_in_graph = vertex1->next_edge;
+                edge1->next_edge = vertex1->next_edge;
                 vertex1->next_edge = edge1;
 
                 /* Vertex2 --> Vertex1 */
                 edge2->destination_vertex = vertex1;
-                edge2->next_edge_in_graph = vertex2->next_edge;
+                edge2->next_edge = vertex2->next_edge;
                 vertex2->next_edge = edge2;
             }
         }
@@ -102,7 +102,7 @@ int graph_is_there_an_edge_between_vertex(Vertex *graph, int vertex_value1, int 
 //                printf("---> is there an edge? %d <-----> %d \n", vertex1->next_edge->destination_vertex->value, vertex2->next_edge->destination_vertex->value);
                 // Find in all the edges
 
-                for (aux_edge1 = vertex1->next_edge; aux_edge1 != NULL; aux_edge1 = aux_edge1->next_edge_in_graph) {
+                for (aux_edge1 = vertex1->next_edge; aux_edge1 != NULL; aux_edge1 = aux_edge1->next_edge) {
 
                     printf("Mess here !!lll \n");
 
@@ -114,7 +114,7 @@ int graph_is_there_an_edge_between_vertex(Vertex *graph, int vertex_value1, int 
                     }
                 }
 
-                for (aux_edge2 = vertex2->next_edge; aux_edge2 != NULL; aux_edge2 = aux_edge2->next_edge_in_graph) {
+                for (aux_edge2 = vertex2->next_edge; aux_edge2 != NULL; aux_edge2 = aux_edge2->next_edge) {
                     if (aux_edge2->destination_vertex->value == vertex1->value) {
 //                        printf("found 2\n");
                         flag_vertex2_vertex1_is_connected = 1;
@@ -182,7 +182,7 @@ void graph_print(Vertex* graph) {
 
         printf("Vertex (%d) \n", vertex1->value);
 
-        for (edge = vertex1->next_edge; edge != NULL; edge = edge->next_edge_in_graph) {
+        for (edge = vertex1->next_edge; edge != NULL; edge = edge->next_edge) {
             vertex2 = edge->destination_vertex;
             if (vertex2 != NULL) {
                 printf("   Destination vertex (%d) \n", vertex2->value);
@@ -193,10 +193,8 @@ void graph_print(Vertex* graph) {
         if (!number_of_connections) {
             printf("   This vertex doesn't have any edge.\n");
         }
-
         number_of_connections = 0;
     }
-
 }
 
 /* Check if the current vertex from the graph is conexed */
@@ -233,7 +231,7 @@ int graph_is_connected(Vertex* graph, int value) {
         found_edge = NULL;
         for (vertex2 = graph; vertex2; vertex2 = vertex2->next_vertex_in_graph) {
             if (vertex2->is_visited) {
-                for (next_edge = vertex2->next_edge; next_edge != NULL; next_edge = next_edge->next_edge_in_graph) {
+                for (next_edge = vertex2->next_edge; next_edge != NULL; next_edge = next_edge->next_edge) {
                     // Check if vertex was visited
                     printf("Show me the value %d -- %d \n", vertex2->value, next_edge->destination_vertex->value);
                     if (! next_edge->destination_vertex->is_visited) {
@@ -276,7 +274,7 @@ Edge* graph_remove_edge(Edge* edge, int vertex_value) {
 
   while (aux_edge != NULL && aux_edge->destination_vertex->value != vertex_value) {
     previous_edge = aux_edge;
-    aux_edge = aux_edge->next_edge_in_graph;
+    aux_edge = aux_edge->next_edge;
   }
 
   if (aux_edge == NULL) {
@@ -284,9 +282,9 @@ Edge* graph_remove_edge(Edge* edge, int vertex_value) {
   }
   
   if (previous_edge == NULL) {
-    edge = aux_edge->next_edge_in_graph;
+    edge = aux_edge->next_edge;
   } else {
-    previous_edge->next_edge_in_graph = aux_edge->next_edge_in_graph;
+    previous_edge->next_edge = aux_edge->next_edge;
   }
 
   free(previous_edge);
@@ -349,7 +347,7 @@ Vertex* graph_remove_vertex(Vertex* graph, int vertex_value) {
 
     // If found the vertex. Remove the edges.
     // Next edge should be called next_edge
-    for (aux_edge2 = current_vertex->next_edge; aux_edge2 != NULL; aux_edge2 = aux_edge2->next_edge_in_graph) {
+    for (aux_edge2 = current_vertex->next_edge; aux_edge2 != NULL; aux_edge2 = aux_edge2->next_edge) {
 
         // Walk to all the vertex in the graph.
         for (aux_vertex = graph; aux_vertex != NULL; aux_vertex = aux_vertex->next_vertex_in_graph) {
@@ -369,14 +367,14 @@ Vertex* graph_remove_vertex(Vertex* graph, int vertex_value) {
     while (aux_edge1 != NULL) {
         Edge* new_edge;
 
-//        if (aux_edge1->next_edge_in_graph != NULL) {
-//            new_edge = aux_edge1->next_edge_in_graph;
+//        if (aux_edge1->next_edge != NULL) {
+//            new_edge = aux_edge1->next_edge;
 //            free(aux_edge1);
 //            aux_edge1 = new_edge;
 //        } else {
 //            aux_edge1 = NULL;
 //        }
-        new_edge = aux_edge1->next_edge_in_graph;
+        new_edge = aux_edge1->next_edge;
         free(aux_edge1);
         aux_edge1 = new_edge;
         current_vertex->next_edge = aux_edge1;
@@ -425,7 +423,7 @@ Edge* graph_free_edge(Edge* edge) {
   Edge* aux_edge = edge;
 
   while (aux_edge != NULL) {
-    Edge* current_edge = aux_edge->next_edge_in_graph;
+    Edge* current_edge = aux_edge->next_edge;
     free(aux_edge);
     aux_edge = current_edge;
   }

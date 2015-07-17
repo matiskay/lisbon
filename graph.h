@@ -29,7 +29,7 @@ struct edge {
   struct vertex* destination_vertex;
   // Next Edge in the graph
   // This a collection of edges from the graph. Rename this variable to next_edge_of_the_graph
-  struct edge* next_edge_in_graph;
+  struct edge* next_edge;
 };
 
 typedef struct vertex Vertex;

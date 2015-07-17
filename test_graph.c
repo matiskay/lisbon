@@ -385,7 +385,7 @@ static char * all_tests() {
 
 //    mu_run_test(test_remove_vertex_that_is_not_in_graph);
 
-    mu_run_test(test_remove_vertex_simple_graph);
+//    mu_run_test(test_remove_vertex_simple_graph);
 //    mu_run_test(test_graph_connected_graph_2);
 //    mu_run_test(test_is_there_not_edge_between_nodes);
 //  mu_run_test(test_graph_remove_vertex);
