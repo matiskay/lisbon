@@ -94,15 +94,15 @@ int main(int argc, char **argv) {
       } else if (strcmp(command, "is_connected") == 0) {
         if (graph != NULL) {
 
-          if (strcmp(variable1, " ") == 0) {
+//          if (strcmp(variable1, " ") == 0) {
             if (graph_is_connected(graph, atoi(variable1)) == 0) {
               printf("=> no \n");
             } else {
               printf("=> yes \n");
             }
-          } else {
-            printf("Please specify the vertex to start. is_connected <vertex-value> \n");
-          }
+//          } else {
+//            printf("Please specify the vertex to start. is_connected <vertex-value> \n");
+//          }
         } else {
           printf("The graph is empty. Please add a vertex. \n");
         }
@@ -153,11 +153,13 @@ void display_header() {
 }
 
 void display_help() {
-  printf("   exit                                     :      Exit the program.\n");
-  printf("   help                                     :      Help for the program.\n");
-  printf("   print                                    :      Print the graph.\n");
-  printf("   vertex <integer-number>                  :      Add vertex to the graph.\n");
-  printf("   edge <integer-number> <integer-number>   :      Create a vertex between vertexs.\n");
-  printf("   is_connected                             :      Check if the current graph is connected.\n");
-  printf("   destroy                                  :      Create a vertex between vertexs.\n");
+    printf("   exit                                     :      Exit the program.\n");
+    printf("   help                                     :      Help for the program.\n");
+    printf("   print                                    :      Print the graph.\n");
+    printf("   vertex <integer-number>                  :      Add vertex to the graph.\n");
+    printf("   edge <integer-number> <integer-number>   :      Create a vertex between vertexs.\n");
+    printf("   is_connected                             :      Check if the current graph is connected.\n");
+    printf("   destroy                                  :      Destroy the graph.\n");
+    printf("   remove_vertex                            :      Remove Vertex from the graph.\n");
+    printf("   remove_edge                              :      Remove edge from the graph.\n");
 }
