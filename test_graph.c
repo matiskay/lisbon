@@ -13,23 +13,32 @@ int tests_run = 0;
 static char * test_remove_vertex_including_edges() {
     Vertex* graph;
 
-    graph = graph_create_vertex(10);
-    graph = graph_insert_vertex(graph, 20);
-    graph = graph_insert_vertex(graph, 30);
+    graph = graph_create_vertex(30);
     graph = graph_insert_vertex(graph, 40);
     graph = graph_insert_vertex(graph, 50);
+    graph = graph_insert_vertex(graph, 20);
+    graph = graph_insert_vertex(graph, 10);
 
-    graph = graph_create_edge_between_vertex(graph, 10, 30);
-    graph = graph_create_edge_between_vertex(graph, 20, 30);
-    graph = graph_create_edge_between_vertex(graph, 10, 20);
-    graph = graph_create_edge_between_vertex(graph, 30, 40);
-    graph = graph_create_edge_between_vertex(graph, 30, 50);
+    graph = graph_create_edge_between_vertex(graph, 10, 50);
+    graph = graph_create_edge_between_vertex(graph, 10, 40);
     graph = graph_create_edge_between_vertex(graph, 40, 50);
+    graph = graph_create_edge_between_vertex(graph, 50, 30);
+    graph = graph_create_edge_between_vertex(graph, 50, 20);
+    graph = graph_create_edge_between_vertex(graph, 20, 30);
 
 //    mu_assert("10 and 30 are not connected.", graph_is_there_an_edge_between_vertex(graph, 10, 30) == 1);
-    graph = graph_remove_vertex(graph, 30);
+    printf("\n------- test_remove_vertex_including_edges ---------- \n");
+    graph_print(graph);
+    printf("\n------------------------------------------------------------------------- \n");
+
+
+    graph = graph_remove_vertex(graph, 50);
+
+    printf("\n------- [After removing 10] test_remove_vertex_including_edges ---------- \n");
 
     graph_print(graph);
+
+    printf("\n----------------------------------------------------- \n");
 
 //    mu_assert("test_is_vertex_in_graph failed 20 it's in the graph", graph_is_vertex_in_graph(graph, 30) == 0);
 //    mu_assert("10 and 20 are not connected.", graph_is_there_an_edge_between_vertex(graph, 20, 10) == 1);
@@ -55,6 +64,10 @@ static char * test_remove_vertex_simple_graph() {
     graph_print(graph);
 
     printf("\n \n =========================================== \n \n");
+
+
+    printf("\n \n =WATATATAT \n \n");
+    graph_print(graph);
 
     graph = graph_remove_vertex(graph, 20);
 
@@ -86,11 +99,22 @@ static char * test_remove_vertex() {
     Vertex* graph;
 
     graph = graph_create_vertex(10);
-    graph = graph_create_vertex(20);
-    graph = graph_create_vertex(30);
-    graph = graph_create_vertex(40);
+    graph = graph_insert_vertex(graph, 20);
+    graph = graph_insert_vertex(graph, 30);
+    graph = graph_insert_vertex(graph, 40);
+
+    graph = graph_create_edge_between_vertex(graph, 30, 40);
+
+    printf("\n-------------- BEFORE ------------ \n");
+    graph_print(graph);
+    printf("\n---------------------------------- \n");
 
     graph = graph_remove_vertex(graph, 20);
+
+
+    printf("\n-------------- AFTER---> ------------ \n");
+    graph_print(graph);
+    printf("\n---------------------------------- \n");
 
     mu_assert("test_is_vertex_in_graph failed 20 it's in the graph", graph_is_vertex_in_graph(graph, 20) == 0);
     return 0;
@@ -409,28 +433,28 @@ static char * test_unit() {
 
 static char * all_tests() {
     mu_run_test(test_unit);
-//  mu_run_test(test_construction);
-//    mu_run_test(test_test_not_connected_graph);
-//    mu_run_test(test_graph_connected_graph);
-//    mu_run_test(test_test_create_edge);
-//    mu_run_test(test_test_create_edge_many_nodes);
+    mu_run_test(test_construction);
+    mu_run_test(test_test_not_connected_graph);
+    mu_run_test(test_graph_connected_graph);
+    mu_run_test(test_test_create_edge);
+    mu_run_test(test_test_create_edge_many_nodes);
     mu_run_test(test_print_graph);
     mu_run_test(test_print_graph_triangle);
     mu_run_test(test_print_graph_square);
-//    mu_run_test(test_print_graph_simple_connection);
-//    mu_run_test(test_print_graph_multiple_connections);
-//    mu_run_test(test_is_vertex_in_graph);
-//    mu_run_test(test_is_vertex_not_in_graph);
-//    mu_run_test(test_remove_vertex);
+    mu_run_test(test_print_graph_simple_connection);
+    mu_run_test(test_print_graph_multiple_connections);
+    mu_run_test(test_is_vertex_in_graph);
+    mu_run_test(test_is_vertex_not_in_graph);
+    mu_run_test(test_remove_vertex);
 
-//    mu_run_test(test_remove_vertex_including_edges);
+    mu_run_test(test_remove_vertex_including_edges);
 
-//    mu_run_test(test_remove_vertex_that_is_not_in_graph);
+    mu_run_test(test_remove_vertex_that_is_not_in_graph);
 
-//    mu_run_test(test_remove_vertex_simple_graph);
-//    mu_run_test(test_graph_connected_graph_2);
-//    mu_run_test(test_is_there_not_edge_between_nodes);
-//  mu_run_test(test_graph_remove_vertex);
+    mu_run_test(test_remove_vertex_simple_graph);
+    mu_run_test(test_graph_connected_graph_2);
+    mu_run_test(test_is_there_not_edge_between_nodes);
+    mu_run_test(test_graph_remove_vertex);
     return 0;
 }
 

@@ -178,6 +178,7 @@ void graph_print(Vertex* graph) {
     Vertex* vertex2;
     Edge* edge;
     int number_of_connections;
+    number_of_connections = 0;
 
     for (vertex1 = graph; vertex1 != NULL; vertex1 = vertex1->next_vertex_in_graph) {
 
@@ -187,13 +188,16 @@ void graph_print(Vertex* graph) {
             vertex2 = edge->destination_vertex;
             if (vertex2 != NULL) {
                 printf("   Destination vertex (%d) \n", vertex2->value);
+                number_of_connections++;
             }
-            number_of_connections++;
         }
 
         if (!number_of_connections) {
             printf("   This vertex doesn't have any edge.\n");
         }
+
+        // Reset Number of connections
+        number_of_connections = 0;
     }
 }
 
@@ -266,30 +270,32 @@ int graph_is_connected(Vertex* graph, int value) {
 }
 
 Edge* graph_remove_edge(Edge* edge, int vertex_value) {
-  Edge* previous_edge;
-  Edge* aux_edge;
+    Edge* previous_edge;
+    Edge* current_edge;
 
-  previous_edge = NULL;
-  aux_edge = edge;
+    previous_edge = NULL;
+    current_edge = edge;
 
-  while (aux_edge != NULL && aux_edge->destination_vertex->value != vertex_value) {
-    previous_edge = aux_edge;
-    aux_edge = aux_edge->next_edge;
-  }
+    while (current_edge != NULL && current_edge->destination_vertex->value != vertex_value) {
+        previous_edge = current_edge;
+        current_edge = current_edge->next_edge;
+    }
 
-  if (aux_edge == NULL) {
+    // There is not vertex in the list of edges.
+    if (current_edge == NULL) {
+        return edge;
+    }
+
+    if (previous_edge == NULL) {
+        edge = current_edge->next_edge;
+    } else {
+        // Remove current edge
+        previous_edge->next_edge = current_edge->next_edge;
+    }
+
+    free(current_edge);
+
     return edge;
-  }
-  
-  if (previous_edge == NULL) {
-    edge = aux_edge->next_edge;
-  } else {
-    previous_edge->next_edge = aux_edge->next_edge;
-  }
-
-  free(previous_edge);
-
-  return edge;
 }
 
 
@@ -310,7 +316,7 @@ int graph_is_vertex_in_graph(Vertex* graph, int value) {
  * Strategy:
  */
 
-Vertex* graph_remove_vertex(Vertex* graph, int vertex_value) {
+Vertex* graph_remove_vertex(Vertex* graph, int vertex_to_be_removed_value) {
     Vertex* previous_vertex;
     Vertex* current_vertex;
     Vertex* aux_vertex;
@@ -320,40 +326,28 @@ Vertex* graph_remove_vertex(Vertex* graph, int vertex_value) {
 
     previous_vertex = NULL;
 
-    // Find the vertex to be remove it
+    // Step1: Find vertex to be remove it.
+    current_vertex = graph;
 
-    for (current_vertex = graph; current_vertex != NULL; current_vertex = current_vertex->next_vertex_in_graph) {
-//        printf("Never Rich this place \n");
-
-        printf("Current Vertex value %d\n", current_vertex->value);
-
-        if (current_vertex->value == vertex_value) {
-            // Found the current vertex and the previous vertex.
-            printf("Found value %d\n", current_vertex->value);
-            break;
-        }
+    while (current_vertex != NULL && current_vertex->value != vertex_to_be_removed_value) {
         previous_vertex = current_vertex;
+        current_vertex = current_vertex->next_vertex_in_graph;
     }
 
     if (current_vertex == NULL) {
-        printf("The current vertex is NULL. There is nothing to remove. \n");
+        printf("[INFO] The current vertex is NULL. There is nothing to remove. \n");
         return graph;
     }
 
-    printf("Current  Vertex to be remove it %d \n", current_vertex->value);
-    printf("Previous Vertex to the one that be remove it %d \n", previous_vertex->value);
-
-    // If the vertex is not in the graph return the same graph.
-
-    // If found the vertex. Remove the edges.
-    // Next edge should be called next_edge
+    // Step 2: Remove all the edges where the node appears. They are the nodes in the edges.
     for (aux_edge2 = current_vertex->next_edge; aux_edge2 != NULL; aux_edge2 = aux_edge2->next_edge) {
 
-        // Walk to all the vertex in the graph.
+        // Walk to all the vertex in the graph and check if the current_vertex is there.
         for (aux_vertex = graph; aux_vertex != NULL; aux_vertex = aux_vertex->next_vertex_in_graph) {
 
             // Check if the edges is connected to one node then remove it.
             if (aux_edge2->destination_vertex == aux_vertex && aux_vertex != current_vertex) {
+                printf("Removing vertex (%d) from vertex to be removed %d \n", current_vertex->value, aux_vertex->value);
                 aux_vertex->next_edge = graph_remove_edge(aux_vertex->next_edge, current_vertex->value);
             }
         }
@@ -361,23 +355,11 @@ Vertex* graph_remove_vertex(Vertex* graph, int vertex_value) {
 
     aux_edge1 = current_vertex->next_edge;
 
-    //printf("(1)----> destination_vertex:    %d\n", aux_edge1->destination_vertex->value);
-
-    // Remove all the conections in the aux_edge
     while (aux_edge1 != NULL) {
         Edge* new_edge;
-
-//        if (aux_edge1->next_edge != NULL) {
-//            new_edge = aux_edge1->next_edge;
-//            free(aux_edge1);
-//            aux_edge1 = new_edge;
-//        } else {
-//            aux_edge1 = NULL;
-//        }
         new_edge = aux_edge1->next_edge;
         free(aux_edge1);
         aux_edge1 = new_edge;
-        current_vertex->next_edge = aux_edge1;
     }
 
     current_vertex->next_edge = aux_edge1;
@@ -385,11 +367,10 @@ Vertex* graph_remove_vertex(Vertex* graph, int vertex_value) {
     if (previous_vertex == NULL) {
         graph = current_vertex->next_vertex_in_graph;
     } else {
+        // Remove the vertex from the list of vertex
         previous_vertex->next_vertex_in_graph = current_vertex->next_vertex_in_graph;
+        free(current_vertex);
     }
-
-    free(current_vertex);
-
     return graph;
 }
 
