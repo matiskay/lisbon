@@ -163,6 +163,6 @@ void display_help() {
     printf("   edge <integer-number> <integer-number>   :      Create a vertex between vertexs.\n");
     printf("   is_connected                             :      Check if the current graph is connected.\n");
     printf("   destroy                                  :      Destroy the graph.\n");
-    printf("   remove_vertex                            :      Remove Vertex from the graph.\n");
-    printf("   remove_edge                              :      Remove edge from the graph.\n");
+    printf("   remove_vertex                            :      [NOT IMPLEMENTED] Remove Vertex from the graph.\n");
+    printf("   remove_edge                              :      [NOT IMPLEMENTED] Remove edge from the graph.\n");
 }
