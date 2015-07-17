@@ -21,7 +21,7 @@
 void display_header(void);
 void display_help(void);
 
-char* get_line(void); 
+char* get_line(void);
 
 /**
  * TODO: Use Ncurses
@@ -43,116 +43,116 @@ char* get_line(void);
  * - help
  **/
 int main(int argc, char **argv) {
-  char* line;
-  int line_number;
-  char command[MAX_REPL_ARGUMENT_SIZE];
-  char variable1[MAX_REPL_ARGUMENT_SIZE];
-  char variable2[MAX_REPL_ARGUMENT_SIZE];
-  int flag_is_graph_initialized;
-  Vertex* graph;
+    char* line;
+    int line_number;
+    char command[MAX_REPL_ARGUMENT_SIZE];
+    char variable1[MAX_REPL_ARGUMENT_SIZE];
+    char variable2[MAX_REPL_ARGUMENT_SIZE];
+    int flag_is_graph_initialized;
+    Vertex* graph;
 
-  flag_is_graph_initialized = 0;
-  line_number = 1;
+    flag_is_graph_initialized = 0;
+    line_number = 1;
 
-  display_header();
+    display_header();
 
-  // TODO: Refactor this mess
-  while (1) {
-    printf(PROMPT, line_number);
+    // TODO: Refactor this mess
+    while (1) {
+        printf(PROMPT, line_number);
 
-    line = get_line();
+        line = get_line();
 
-    // Reset variables
-    variable1[0] = '\0';
-    variable2[0] = '\0';
+        // Reset variables
+        variable1[0] = '\0';
+        variable2[0] = '\0';
 
-    if (strcmp(line, "exit") == 0) {
-      printf("Do you really want to exit ([y]/n)? ");
+        if (strcmp(line, "exit") == 0) {
+            printf("Do you really want to exit ([y]/n)? ");
 
-      line = get_line();
+            line = get_line();
 
-      if (strcmp(line, "y") == 0) {
-        break;
-      }
-
-    } else if (strcmp(line, "print") == 0) {
-      graph_print(graph);
-    } else if (strcmp(line, "destroy") == 0) {
-      graph = graph_destroy(graph);
-    } else if (strcmp(line, "help") == 0) {
-      display_help();
-    } else {
-
-      sscanf(line, "%s %s %s", command, variable1, variable2);
-
-      if (strcmp(command, "vertex") == 0) {
-        if (variable1) {
-          if (flag_is_graph_initialized) {
-            graph = graph_insert_vertex(graph, atoi(variable1));
-          } else {
-            graph = graph_create_vertex(atoi(variable1));
-            flag_is_graph_initialized = 1;
-          }
-        }
-      } else if (strcmp(command, "is_connected") == 0) {
-        if (graph != NULL) {
-
-          if (variable1 && strlen(variable1) > 0) {
-            if (graph_is_connected(graph, atoi(variable1)) == 0) {
-              printf("=> no \n");
-            } else {
-              printf("=> yes \n");
+            if (strcmp(line, "y") == 0) {
+                break;
             }
-          } else {
-            printf("Please specify the vertex to start. is_connected <vertex-value> \n");
-          }
+
+        } else if (strcmp(line, "print") == 0) {
+            graph_print(graph);
+        } else if (strcmp(line, "destroy") == 0) {
+            graph = graph_destroy(graph);
+        } else if (strcmp(line, "help") == 0) {
+            display_help();
         } else {
-          printf("The graph is empty. Please add a vertex. \n");
+
+            sscanf(line, "%s %s %s", command, variable1, variable2);
+
+            if (strcmp(command, "vertex") == 0) {
+                if (variable1) {
+                    if (flag_is_graph_initialized) {
+                        graph = graph_insert_vertex(graph, atoi(variable1));
+                    } else {
+                        graph = graph_create_vertex(atoi(variable1));
+                        flag_is_graph_initialized = 1;
+                    }
+                }
+            } else if (strcmp(command, "is_connected") == 0) {
+                if (graph != NULL) {
+
+                    if (variable1 && strlen(variable1) > 0) {
+                        if (graph_is_connected(graph, atoi(variable1)) == 0) {
+                            printf("=> no \n");
+                        } else {
+                            printf("=> yes \n");
+                        }
+                    } else {
+                        printf("Please specify the vertex to start. is_connected <vertex-value> \n");
+                    }
+                } else {
+                    printf("The graph is empty. Please add a vertex. \n");
+                }
+
+            } else if (strcmp(command, "edge") == 0) {
+                graph = graph_create_edge_between_vertex(graph, atoi(variable1), atoi(variable2));
+            } else {
+                printf("%s is an undefined command \n", line);
+            }
         }
 
-      } else if (strcmp(command, "edge") == 0) {
-        graph = graph_create_edge_between_vertex(graph, atoi(variable1), atoi(variable2));
-      } else {
-        printf("%s is an undefined command \n", line);
-      }
+        line_number++;
     }
 
-    line_number++;
-  }
-
-  return 0;
+    return 0;
 }
 
 // TODO: Check overflow
 char* get_line() {
-  char* line;
-  int index;
+    char* line;
+    int index;
 
-  line = malloc(MAXIMUN_LENGTH_OF_THE_INPUT_STRING);
-  index = 0;
+    line = malloc(MAXIMUN_LENGTH_OF_THE_INPUT_STRING);
+    index = 0;
 
-  line[index] = (char) getchar();
-  
-  // This command includes "\n" at the end
-  while (line[index] != '\n') {
-    index++;
-    if (line[index] != '\n') {
-      line[index] = (char) getchar();
+    line[index] = (char) getchar();
+
+    // This command includes "\n" at the end
+    while (line[index] != '\n') {
+        index++;
+        if (line[index] != '\n') {
+            line[index] = (char) getchar();
+        }
     }
-  }
 
-  line[index] = '\0';
+    line[index] = '\0';
 
-  return line;
+    return line;
 }
 
 void display_header() {
-  printf("   __ _     _                     " KGRN "|   Lisbon\n" RESET); 
-  printf("  / /(_)___| |__   ___  _ __      " KGRN "|" RESET KMAG "   A basic graph REPL \n" RESET);
-  printf(" / / | / __| '_ \\ / _ \\| '_ \\     " KGRN "|" RESET " \n");
-  printf("/ /__| \\__ \\ |_) | (_) | | | |    " KGRN "|" RESET "   Data Structures and Applications\n");
-  printf("\\____/_|___/_.__/ \\___/|_| |_|    " KGRN "|" RESET "   GA-024\n");
-  printf("\n");
+    printf("   __ _     _                     " KGRN "|   Lisbon\n" RESET);
+    printf("  / /(_)___| |__   ___  _ __      " KGRN "|" RESET KMAG "   A basic graph REPL \n" RESET);
+    printf(" / / | / __| '_ \\ / _ \\| '_ \\     " KGRN "|" RESET " \n");
+    printf("/ /__| \\__ \\ |_) | (_) | | | |    " KGRN "|" RESET "   Data Structures and Applications\n");
+    printf("\\____/_|___/_.__/ \\___/|_| |_|    " KGRN "|" RESET "   GA-024\n");
+    printf("\n");
 }
 
 void display_help() {
