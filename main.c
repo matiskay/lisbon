@@ -68,10 +68,13 @@ int main(int argc, char **argv) {
 
     if (strcmp(line, "exit") == 0) {
       printf("Do you really want to exit ([y]/n)? ");
+
       line = get_line();
+
       if (strcmp(line, "y") == 0) {
         break;
       }
+
     } else if (strcmp(line, "print") == 0) {
       graph_print(graph);
     } else if (strcmp(line, "destroy") == 0) {
@@ -94,15 +97,15 @@ int main(int argc, char **argv) {
       } else if (strcmp(command, "is_connected") == 0) {
         if (graph != NULL) {
 
-//          if (strcmp(variable1, " ") == 0) {
+          if (variable1 && strlen(variable1) > 0) {
             if (graph_is_connected(graph, atoi(variable1)) == 0) {
               printf("=> no \n");
             } else {
               printf("=> yes \n");
             }
-//          } else {
-//            printf("Please specify the vertex to start. is_connected <vertex-value> \n");
-//          }
+          } else {
+            printf("Please specify the vertex to start. is_connected <vertex-value> \n");
+          }
         } else {
           printf("The graph is empty. Please add a vertex. \n");
         }
