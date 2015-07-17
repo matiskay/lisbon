@@ -122,12 +122,52 @@ static char * test_print_graph() {
     graph = graph_create_vertex(10);
     graph = graph_insert_vertex(graph, 20);
 
-    printf("\nTesting Print Graph \n");
-    printf("-------------------------------\n");
+    graph_print(graph);
+
+    return 0;
+}
+
+static char* test_print_graph_triangle() {
+    Vertex* graph;
+
+    graph = graph_create_vertex(20);
+    graph = graph_insert_vertex(graph, 10);
+    graph = graph_insert_vertex(graph, 30);
+
+    graph = graph_create_edge_between_vertex(graph, 20, 30);
+    graph = graph_create_edge_between_vertex(graph, 20, 10);
+
+    graph = graph_create_edge_between_vertex(graph, 10, 30);
+
 
     graph_print(graph);
 
-    printf("\n-------------------------------\n");
+    return 0;
+}
+
+static char* test_print_graph_square() {
+    Vertex* graph;
+
+    graph = graph_create_vertex(10);
+    graph = graph_insert_vertex(graph, 20);
+    graph = graph_insert_vertex(graph, 30);
+    graph = graph_insert_vertex(graph, 40);
+    graph = graph_insert_vertex(graph, 50);
+
+    graph = graph_create_edge_between_vertex(graph, 30, 50);
+    graph = graph_create_edge_between_vertex(graph, 30, 20);
+    graph = graph_create_edge_between_vertex(graph, 30, 10);
+    graph = graph_create_edge_between_vertex(graph, 10, 50);
+    graph = graph_create_edge_between_vertex(graph, 10, 40);
+    graph = graph_create_edge_between_vertex(graph, 50, 40);
+    graph = graph_create_edge_between_vertex(graph, 50, 20);
+    graph = graph_create_edge_between_vertex(graph, 20, 40);
+
+    printf("\n----- test_print_graph_square -----------\n");
+
+    graph_print(graph);
+
+    printf("\n------------------------------------------\n");
 
     return 0;
 }
@@ -374,7 +414,9 @@ static char * all_tests() {
 //    mu_run_test(test_graph_connected_graph);
 //    mu_run_test(test_test_create_edge);
 //    mu_run_test(test_test_create_edge_many_nodes);
-//    mu_run_test(test_print_graph);
+    mu_run_test(test_print_graph);
+    mu_run_test(test_print_graph_triangle);
+    mu_run_test(test_print_graph_square);
 //    mu_run_test(test_print_graph_simple_connection);
 //    mu_run_test(test_print_graph_multiple_connections);
 //    mu_run_test(test_is_vertex_in_graph);

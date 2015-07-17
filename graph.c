@@ -170,13 +170,14 @@ Vertex* graph_insert_vertex(Vertex* graph, int value) {
   return new_vertex;
 }
 
+/**
+ *  Print Graph
+ */
 void graph_print(Vertex* graph) {
     Vertex* vertex1;
     Vertex* vertex2;
     Edge* edge;
     int number_of_connections;
-
-    number_of_connections = 0;
 
     for (vertex1 = graph; vertex1 != NULL; vertex1 = vertex1->next_vertex_in_graph) {
 
@@ -193,7 +194,6 @@ void graph_print(Vertex* graph) {
         if (!number_of_connections) {
             printf("   This vertex doesn't have any edge.\n");
         }
-        number_of_connections = 0;
     }
 }
 
