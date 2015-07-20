@@ -164,5 +164,4 @@ void display_help() {
     printf("   is_connected                             :      Check if the current graph is connected.\n");
     printf("   destroy                                  :      Destroy the graph.\n");
     printf("   remove_vertex                            :      [NOT IMPLEMENTED] Remove Vertex from the graph.\n");
-    printf("   remove_edge                              :      [NOT IMPLEMENTED] Remove edge from the graph.\n");
 }
