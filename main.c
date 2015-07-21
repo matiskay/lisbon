@@ -94,6 +94,12 @@ int main(int argc, char **argv) {
                         flag_is_graph_initialized = 1;
                     }
                 }
+            } else if (strcmp(command, "remove_vertex") == 0) {
+                if (variable1 && strlen(variable1) > 0) {
+                    graph = graph_remove_vertex(graph, atoi(variable1));
+                } else {
+                    printf("Please provide a vertex to the command. \n");
+                }
             } else if (strcmp(command, "is_connected") == 0) {
                 if (graph != NULL) {
 
@@ -163,5 +169,5 @@ void display_help() {
     printf("   edge <integer-number> <integer-number>   :      Create a vertex between vertexs.\n");
     printf("   is_connected                             :      Check if the current graph is connected.\n");
     printf("   destroy                                  :      Destroy the graph.\n");
-    printf("   remove_vertex                            :      [NOT IMPLEMENTED] Remove Vertex from the graph.\n");
+    printf("   remove_vertex                            :      Remove Vertex from the graph.\n");
 }

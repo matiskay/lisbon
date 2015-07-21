@@ -237,7 +237,7 @@ int graph_is_connected(Vertex* graph, int value) {
             if (vertex2->is_visited) {
                 for (next_edge = vertex2->next_edge; next_edge != NULL; next_edge = next_edge->next_edge) {
                     // Check if vertex was visited
-                    printf("Show me the value %d -- %d \n", vertex2->value, next_edge->destination_vertex->value);
+//                    printf("Show me the value %d -- %d \n", vertex2->value, next_edge->destination_vertex->value);
                     if (! next_edge->destination_vertex->is_visited) {
                         found_edge = next_edge;
                     }
