@@ -12,7 +12,7 @@ struct vertex {
   int value;
   int is_visited;
   /* NOTE: The name should be next vertex in the graph */
-  /* TODO: Renamte this variable to next_vertex_of_the_graph; */
+  /* TODO: Rename this variable to next_vertex_of_the_graph; */
   struct vertex* next_vertex_in_graph; /* Next vertex in the collection of vertex, next vertex doesn't mean connected  */
   /* The name should be edge */
   /* It should be called edge_to */

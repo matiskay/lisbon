@@ -161,6 +161,7 @@ void display_header() {
     printf("\n");
 }
 
+// TODO: He want the path to the other nodes.
 void display_help() {
     printf("   exit                                     :      Exit the program.\n");
     printf("   help                                     :      Help for the program.\n");

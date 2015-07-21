@@ -98,25 +98,15 @@ int graph_is_there_an_edge_between_vertex(Vertex *graph, int vertex_value1, int 
     for (vertex1 = graph; vertex1 != NULL; vertex1 = vertex1->next_vertex_in_graph) {
         for (vertex2 = graph; vertex2 != NULL; vertex2 = vertex2->next_vertex_in_graph) {
             if (vertex1->value == vertex_value1 && vertex2->value == vertex_value2) {
-//                printf("---> is there an edge? %d <-----> %d \n", vertex1->value, vertex2->value);
-//                printf("---> is there an edge? %d <-----> %d \n", vertex1->next_edge->destination_vertex->value, vertex2->next_edge->destination_vertex->value);
                 // Find in all the edges
-
                 for (aux_edge1 = vertex1->next_edge; aux_edge1 != NULL; aux_edge1 = aux_edge1->next_edge) {
-
-                    printf("Mess here !!lll \n");
-
-                    printf("Get the aux value: %d \n", aux_edge1->destination_vertex->value);
-
                     if (aux_edge1->destination_vertex->value == vertex2->value) {
-                        printf("found 1\n");
                         flag_vertex1_vertex2_is_connected = 1;
                     }
                 }
 
                 for (aux_edge2 = vertex2->next_edge; aux_edge2 != NULL; aux_edge2 = aux_edge2->next_edge) {
                     if (aux_edge2->destination_vertex->value == vertex1->value) {
-//                        printf("found 2\n");
                         flag_vertex2_vertex1_is_connected = 1;
                     }
                 }
@@ -252,8 +242,6 @@ int graph_is_connected(Vertex* graph, int value) {
             }
         }
     } while (found_edge);
-
-    printf("----------- end! \n");
 
     // Check if all the vertex on the graph was visited.
     for(vertex2 = graph; vertex2 && vertex2->is_visited; vertex2 = vertex2->next_vertex_in_graph);
