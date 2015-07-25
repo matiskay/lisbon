@@ -14,7 +14,7 @@
 #define RESET "\033[0m"
 
 
-#define PROMPT "lisbon:%.3i> "
+#define PROMPT KGRN"lisbon:"KMAG"%.3i"KGRN">"RESET" "
 
 // TODO: Create a function to get all the values of the string something like var_dump
 
@@ -53,6 +53,7 @@ int main(int argc, char **argv) {
 
     flag_is_graph_initialized = 0;
     line_number = 1;
+    graph = NULL;
 
     display_header();
 
@@ -86,16 +87,18 @@ int main(int argc, char **argv) {
             sscanf(line, "%s %s %s", command, variable1, variable2);
 
             if (strcmp(command, "vertex") == 0) {
-                if (variable1) {
+                if (strlen(variable1) > 0) {
                     if (flag_is_graph_initialized) {
                         graph = graph_insert_vertex(graph, atoi(variable1));
                     } else {
                         graph = graph_create_vertex(atoi(variable1));
                         flag_is_graph_initialized = 1;
                     }
+                } else {
+                    printf(KRED "Error: Please add one argument. \nUsage:   vertex <int>\n" RESET);
                 }
             } else if (strcmp(command, "remove_vertex") == 0) {
-                if (variable1 && strlen(variable1) > 0) {
+                if (strlen(variable1) > 0) {
                     graph = graph_remove_vertex(graph, atoi(variable1));
                 } else {
                     printf("Please provide a vertex to the command. \n");
@@ -103,7 +106,7 @@ int main(int argc, char **argv) {
             } else if (strcmp(command, "is_connected") == 0) {
                 if (graph != NULL) {
 
-                    if (variable1 && strlen(variable1) > 0) {
+                    if (strlen(variable1) > 0) {
                         if (graph_is_connected(graph, atoi(variable1)) == 0) {
                             printf("=> no \n");
                         } else {
@@ -117,9 +120,18 @@ int main(int argc, char **argv) {
                 }
 
             } else if (strcmp(command, "edge") == 0) {
-                graph = graph_create_edge_between_vertex(graph, atoi(variable1), atoi(variable2));
+                if (strlen(variable1) > 0 && strlen(variable2) > 0) {
+                    graph = graph_create_edge_between_vertex(graph, atoi(variable1), atoi(variable2));
+                } else {
+                    printf(KRED "Error: Please add two arguments. \nUsage:   edge <int> <int>\n" RESET);
+                }
             } else {
-                printf("%s is an undefined command \n", line);
+                if (strlen(command) > 0 && strlen(line) > 0) {
+                    printf("%s is an undefined command.\n", line);
+                } else {
+                    printf("Please provide a command.\n");
+                }
+
             }
         }
 
