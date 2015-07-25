@@ -5,11 +5,13 @@
 #define DEBUG 0
 #define SHOW_INFO 0
 
-// Question: Can I assign a NULL to an integer and then use this value to check if the graph has no value
-// Question: I can use a negative number for the graph.
-// Note: My assumption for this problem will be that all the values are positive so I can use the negative for
-// testing.
-// TODO: Add constraint when there is not enough memory
+/**
+ * Question: Can I assign a NULL to an integer and then use this value to check if the graph has no value
+ * Question: I can use a negative number for the graph.
+ * Note: My assumption for this problem is that all the values are positive so I can use the negative for
+ * testing.
+ * TODO: Add constraint when there is not enough memory
+ **/
 Vertex* graph_create_vertex(int value) {
   Vertex* vertex;
   vertex = (Vertex*) malloc(sizeof(Vertex));
@@ -26,9 +28,11 @@ Vertex* graph_create_empty_vertex() {
   Vertex* vertex;
   vertex = (Vertex*) malloc(sizeof(Vertex));
 
-  // Zero by default.
-  // Condition:
-  //   All the values of the graph must greater than 0
+    /**
+     * Zero by default.
+     * Condition:
+     * All the values of the graph must greater than 0
+     **/
   vertex->value = 0;
   vertex->next_edge = NULL;
   vertex->next_vertex_in_graph = NULL;
@@ -191,7 +195,7 @@ void graph_print(Vertex* graph) {
     }
 }
 
-/* Check if the current vertex from the graph is conexed */
+/* Check if the current vertex from the graph is connected */
 /* Check if there is a path between a note in the graph and the node value using a greedy algorithm. */
 int graph_is_connected(Vertex* graph, int value) {
     Vertex* vertex1;
@@ -215,15 +219,21 @@ int graph_is_connected(Vertex* graph, int value) {
     /* Set all the visits to 0 */
     for (vertex2 = graph; vertex2; vertex2->is_visited = 0, vertex2 = vertex2->next_vertex_in_graph);
 
+    // Add to the path
     vertex1->is_visited = 1;
 
     if (SHOW_INFO) {
         printf("Exploration for the vertex (%d):   \n", vertex1->value);
     }
 
+    printf("-----------------------------------------------------\n\n");
+
+    printf("   Path:   %d\n", vertex1->value);
     do {
         found_edge = NULL;
         for (vertex2 = graph; vertex2; vertex2 = vertex2->next_vertex_in_graph) {
+//            printf("Starting from vertex %d \n", vertex1->value);
+//            printf("   Vertex %d \n", vertex2->value);
             if (vertex2->is_visited) {
                 for (next_edge = vertex2->next_edge; next_edge != NULL; next_edge = next_edge->next_edge) {
                     // Check if vertex was visited
@@ -237,6 +247,7 @@ int graph_is_connected(Vertex* graph, int value) {
 
         if (found_edge) {
             found_edge->destination_vertex->is_visited = 1;
+            printf("   Path:   %d\n", found_edge->destination_vertex->value);
             if (SHOW_INFO) {
                 printf("Exploration for the vertex (%d):   \n", found_edge->destination_vertex->value);
             }

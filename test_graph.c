@@ -426,6 +426,30 @@ static char * test_test_not_connected_graph() {
     return 0;
 }
 
+static char * test_graph_is_connected_print() {
+    Vertex* graph;
+
+    graph = graph_create_vertex(10);
+    graph = graph_insert_vertex(graph, 20);
+    graph = graph_insert_vertex(graph, 30);
+    graph = graph_insert_vertex(graph, 40);
+    graph = graph_insert_vertex(graph, 50);
+    graph = graph_insert_vertex(graph, 60);
+
+    graph = graph_create_edge_between_vertex(graph, 10, 20);
+    graph = graph_create_edge_between_vertex(graph, 10, 30);
+    graph = graph_create_edge_between_vertex(graph, 20, 30);
+    graph = graph_create_edge_between_vertex(graph, 20, 40);
+    graph = graph_create_edge_between_vertex(graph, 10, 40);
+    graph = graph_create_edge_between_vertex(graph, 40, 50);
+    graph = graph_create_edge_between_vertex(graph, 40, 60);
+    graph = graph_create_edge_between_vertex(graph, 50, 60);
+
+    // Result 10 --> 20 --> 30
+    mu_assert("test_graph_is_connected_print", graph_is_connected(graph, 10) == 1);
+    return 0;
+}
+
 static char * test_unit() {
     mu_assert("error, test_unit 1 != 1", 1 == 1);
     return 0;
@@ -455,6 +479,7 @@ static char * all_tests() {
     mu_run_test(test_graph_connected_graph_2);
     mu_run_test(test_is_there_not_edge_between_nodes);
     mu_run_test(test_graph_remove_vertex);
+    mu_run_test(test_graph_is_connected_print);
     return 0;
 }
 
