@@ -435,18 +435,27 @@ static char * test_graph_is_connected_print() {
     graph = graph_insert_vertex(graph, 40);
     graph = graph_insert_vertex(graph, 50);
     graph = graph_insert_vertex(graph, 60);
+    graph = graph_insert_vertex(graph, 70);
+    graph = graph_insert_vertex(graph, 80);
 
     graph = graph_create_edge_between_vertex(graph, 10, 20);
     graph = graph_create_edge_between_vertex(graph, 10, 30);
     graph = graph_create_edge_between_vertex(graph, 20, 30);
-    graph = graph_create_edge_between_vertex(graph, 20, 40);
-    graph = graph_create_edge_between_vertex(graph, 10, 40);
-    graph = graph_create_edge_between_vertex(graph, 40, 50);
+    graph = graph_create_edge_between_vertex(graph, 30, 50);
+    graph = graph_create_edge_between_vertex(graph, 30, 40);
     graph = graph_create_edge_between_vertex(graph, 40, 60);
-    graph = graph_create_edge_between_vertex(graph, 50, 60);
+    graph = graph_create_edge_between_vertex(graph, 60, 50);
+    graph = graph_create_edge_between_vertex(graph, 50, 80);
+    graph = graph_create_edge_between_vertex(graph, 50, 70);
+    graph = graph_create_edge_between_vertex(graph, 70, 80);
+//    graph = graph_create_edge_between_vertex(graph, 20, 40);
+//    graph = graph_create_edge_between_vertex(graph, 10, 40);
+//    graph = graph_create_edge_between_vertex(graph, 40, 50);
+//    graph = graph_create_edge_between_vertex(graph, 40, 60);
+//    graph = graph_create_edge_between_vertex(graph, 50, 60);
 
     // Result 10 --> 20 --> 30
-    mu_assert("test_graph_is_connected_print", graph_is_connected(graph, 10) == 1);
+    mu_assert("test_graph_is_connected_print", graph_is_connected(graph, 30) == 1);
     return 0;
 }
 

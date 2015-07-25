@@ -63,12 +63,16 @@ Vertex* graph_create_edge_between_vertex(Vertex* graph, int vertex_value1, int v
     edge1 = graph_create_edge();
     edge2 = graph_create_edge();
 
-    // Inception :)
+    /**
+     * Inception :)
+     **/
     for (vertex1 = graph; vertex1 != NULL; vertex1 = vertex1->next_vertex_in_graph) {
         for (vertex2 = graph; vertex2 != NULL; vertex2 = vertex2->next_vertex_in_graph) {
             if (vertex1->value == vertex_value1 && vertex2->value == vertex_value2) {
                 /* Create the edge between this two vertex */
-//                printf("Creating edge between %d <-----> %d \n", vertex1->value, vertex2->value);
+                /**
+                 * printf("Creating edge between %d <-----> %d \n", vertex1->value, vertex2->value);
+                 **/
 
                 /* Vertex1 --> Vertex2 */
                 edge1->destination_vertex = vertex2;
@@ -102,7 +106,7 @@ int graph_is_there_an_edge_between_vertex(Vertex *graph, int vertex_value1, int 
     for (vertex1 = graph; vertex1 != NULL; vertex1 = vertex1->next_vertex_in_graph) {
         for (vertex2 = graph; vertex2 != NULL; vertex2 = vertex2->next_vertex_in_graph) {
             if (vertex1->value == vertex_value1 && vertex2->value == vertex_value2) {
-                // Find in all the edges
+                /* Find in all the edges */
                 for (aux_edge1 = vertex1->next_edge; aux_edge1 != NULL; aux_edge1 = aux_edge1->next_edge) {
                     if (aux_edge1->destination_vertex->value == vertex2->value) {
                         flag_vertex1_vertex2_is_connected = 1;
@@ -190,19 +194,20 @@ void graph_print(Vertex* graph) {
             printf("   This vertex doesn't have any edge.\n");
         }
 
-        // Reset Number of connections
+        /* Reset Number of connections */
         number_of_connections = 0;
     }
 }
 
 /* Check if the current vertex from the graph is connected */
 /* Check if there is a path between a note in the graph and the node value using a greedy algorithm. */
+/* Greedy Search implies connectedness */
 int graph_is_connected(Vertex* graph, int value) {
     Vertex* vertex1;
     Vertex* vertex2;
 
     Edge* next_edge;
-    Edge* found_edge;
+    Edge* max_found_edge;
 
     vertex1 = graph;
 
@@ -221,38 +226,48 @@ int graph_is_connected(Vertex* graph, int value) {
 
     // Add to the path
     vertex1->is_visited = 1;
+    printf("---> %d\n", vertex1->value);
 
     if (SHOW_INFO) {
         printf("Exploration for the vertex (%d):   \n", vertex1->value);
     }
 
-    printf("-----------------------------------------------------\n\n");
+//    printf("-----------------------------------------------------\n\n");
 
-    printf("   Path:   %d\n", vertex1->value);
+//    printf("   Path:   %d\n", vertex1->value);
     do {
-        found_edge = NULL;
+        max_found_edge = NULL;
         for (vertex2 = graph; vertex2; vertex2 = vertex2->next_vertex_in_graph) {
-//            printf("Starting from vertex %d \n", vertex1->value);
-//            printf("   Vertex %d \n", vertex2->value);
+            /**
+             * printf("Starting from vertex %d \n", vertex1->value);
+             * printf("   Vertex %d \n", vertex2->value);
+             **/
             if (vertex2->is_visited) {
                 for (next_edge = vertex2->next_edge; next_edge != NULL; next_edge = next_edge->next_edge) {
                     // Check if vertex was visited
 //                    printf("Show me the value %d -- %d \n", vertex2->value, next_edge->destination_vertex->value);
                     if (! next_edge->destination_vertex->is_visited) {
-                        found_edge = next_edge;
+                        if (max_found_edge != NULL) {
+                            if (next_edge->destination_vertex->value > max_found_edge->destination_vertex->value) {
+                                max_found_edge = next_edge;
+                            }
+                        } else {
+                            max_found_edge = next_edge;
+                        }
                     }
                 }
             }
         }
 
-        if (found_edge) {
-            found_edge->destination_vertex->is_visited = 1;
-            printf("   Path:   %d\n", found_edge->destination_vertex->value);
+        if (max_found_edge) {
+            max_found_edge->destination_vertex->is_visited = 1;
+//            printf("   Path:   %d\n", max_found_edge->destination_vertex->value);
+            printf("---> %d\n", max_found_edge->destination_vertex->value);
             if (SHOW_INFO) {
-                printf("Exploration for the vertex (%d):   \n", found_edge->destination_vertex->value);
+                printf("Exploration for the vertex (%d):   \n", max_found_edge->destination_vertex->value);
             }
         }
-    } while (found_edge);
+    } while (max_found_edge);
 
     // Check if all the vertex on the graph was visited.
     for(vertex2 = graph; vertex2 && vertex2->is_visited; vertex2 = vertex2->next_vertex_in_graph);
@@ -314,7 +329,6 @@ int graph_is_vertex_in_graph(Vertex* graph, int value) {
  * Remove Vertex from graph G = (V, E)
  * Strategy:
  */
-
 Vertex* graph_remove_vertex(Vertex* graph, int vertex_to_be_removed_value) {
     Vertex* previous_vertex;
     Vertex* current_vertex;
