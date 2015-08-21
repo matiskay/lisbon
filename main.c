@@ -180,7 +180,7 @@ void display_help() {
     printf("   print                                    :      Print the graph.\n");
     printf("   vertex <integer-number>                  :      Add vertex to the graph.\n");
     printf("   edge <integer-number> <integer-number>   :      Create a vertex between vertexs.\n");
-    printf("   is_connected                             :      Check if the current graph is connected.\n");
+    printf("   is_connected <integer-number>            :      Check if the current graph is connected.\n");
     printf("   destroy                                  :      Destroy the graph.\n");
-    printf("   remove_vertex                            :      Remove Vertex from the graph.\n");
+    printf("   remove_vertex <integer-number>           :      Remove Vertex from the graph.\n");
 }
